@@ -46,8 +46,9 @@ export class HttpStatusFilter implements ExceptionFilter {
     }
 
     httpAdapter.reply(ctx.getResponse(), ({
+      code: httpStatus,
       success: false,
-      errors,
+      errors
     } as ResponseBase<any>), httpStatus);
   }
 
