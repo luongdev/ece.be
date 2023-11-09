@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { TransformInterceptor } from './shared/http/http.response';
 import { HttpStatusFilter } from './shared/http/http-status.filter';
 import { AppService } from './app.service';
+import * as passport from 'passport';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { logger: ['error'] });
@@ -13,6 +14,7 @@ async function bootstrap() {
   app.useLogger(appService.logger);
   app.setGlobalPrefix('/api');
   app.enableCors({});
+  app.use(passport.initialize());
 
   const config = new DocumentBuilder()
     .setTitle('BE API')
@@ -23,7 +25,7 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document);
 
-	  appService.logger.info(`Swagger listening on http://0.0.0.0:${3000}/docs`);
+    appService.logger.info(`Swagger listening on http://0.0.0.0:${3000}/docs`);
   }
 
   app.useGlobalPipes(new ValidationPipe());

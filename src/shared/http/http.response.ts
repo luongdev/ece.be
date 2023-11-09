@@ -1,11 +1,11 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { CallHandler, ExecutionContext, HttpStatus, Injectable, NestInterceptor } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
 
 export interface ResponseBase<T> {
-	success: boolean;
-	errors?: { code?: string, message?: string }[];
-	message?: string;
-	data?: T;
+  success: boolean;
+  errors?: { code?: string, message?: string; }[];
+  message?: string;
+  data?: T;
 }
 
 @Injectable()
@@ -18,8 +18,9 @@ export class TransformInterceptor<T> implements NestInterceptor<T, ResponseBase<
           if (data['raw']) return data['data'];
 
           return ({
+            code: HttpStatus.OK,
             success: true,
-            data,
+            data
           } as ResponseBase<any>);
         })
       );
