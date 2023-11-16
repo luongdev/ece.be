@@ -43,6 +43,8 @@ export class HttpStatusFilter implements ExceptionFilter {
       } else {
         errors.push({ code: 'INTERNAL_SERVER_ERROR', message: responseEx['message'] });
       }
+    } else {
+      errors.push({ code: 'INTERNAL_SERVER_ERROR', message: exception.message });
     }
 
     httpAdapter.reply(ctx.getResponse(), ({

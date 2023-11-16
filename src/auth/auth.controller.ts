@@ -1,6 +1,5 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { INVALID_TOKEN_REFRESH } from '@/constants/errors';
 
 @Controller('auth')
 export class AuthController {
@@ -9,15 +8,15 @@ export class AuthController {
     ) { }
 
     @Post('refresh-token')
-    async refreshAccessToken(@Body() { refreshToken }: { refreshToken: string; }): Promise<any> {
+    async refreshAccessToken(@Req() req, @Body() { refreshToken }: { refreshToken: string; }): Promise<any> {
         try {
-            const newAccessToken = this._authService.refreshAccessToken(refreshToken);
+            const username = req?.user?.username;
+            const { newAccessToken, newRefreshToken } = await this._authService.refreshAccessToken(refreshToken, username);
 
-            return { accessToken: newAccessToken };
+            return { token: newAccessToken, refreshToken: newRefreshToken };
         } catch (error) {
-            console.log(`Refresh token error is: ${error.message}`);
 
-            return INVALID_TOKEN_REFRESH;
+            return error.message;
         }
     }
 }

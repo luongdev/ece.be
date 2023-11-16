@@ -10,10 +10,10 @@ export class LoginController {
 
   @UseGuards(AuthGuard('ldap'))
   @Post('')
-  ldapLogin(@Req() req) {
-    const username = req.user;
-    const jwtToken = this.authService.generateJwtToken({ username });
-    const refreshToken = this.authService.generateRefreshToken({ username });
+  async ldapLogin(@Req() req) {
+    const infoAccount = req.user;
+    const jwtToken = this.authService.generateJwtToken(infoAccount);
+    const refreshToken = await this.authService.generateRefreshToken(infoAccount);
 
     return { token: jwtToken, refreshToken };
   }

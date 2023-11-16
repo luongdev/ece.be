@@ -6,12 +6,15 @@ config();
 const configService = new ConfigService();
 
 export default new DataSource({
-  type: 'mysql',
+  type: 'mssql',
   host: configService.get<string>('DB_HOST'),
   port: Number(configService.get<number>('DB_PORT')),
   username: configService.get<string>('DB_USERNAME'),
   password: configService.get<string>('DB_PASSWORD'),
   database: configService.get('DB_DATABASE'),
   entities: ['src/**/*.entity{.ts,.js}'],
-  migrations: ['./migrations/*.ts'],
+  migrations: ['./src/migrations/*.ts'],
+  extra: {
+    trustServerCertificate: true,
+  }
 });

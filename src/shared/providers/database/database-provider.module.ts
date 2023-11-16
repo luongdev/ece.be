@@ -11,16 +11,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       useFactory: async (configService: ConfigService) => {
         const dbConfigService = new DatabaseConfigService(configService);
         return ({
-          type: 'mysql',
+          type: 'mssql',
           host: dbConfigService.host,
-          port: dbConfigService.port,
+          port: Number(dbConfigService.port),
           username: dbConfigService.username,
           password: dbConfigService.password,
           database: dbConfigService.database,
-          entities: [],
+          entities: [__dirname + '/**/*.entity{.ts,.js}'],
           migrations: await dbConfigService.migrations(),
           migrationsRun: true,
-          autoLoadEntities: true,
+          extra: {
+            trustServerCertificate: true,
+          },
+          autoLoadEntities: true
         } as TypeOrmModuleAsyncOptions);
       },
     }),

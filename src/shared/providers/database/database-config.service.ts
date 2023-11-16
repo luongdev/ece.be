@@ -33,19 +33,9 @@ export class DatabaseConfigService {
     return this._configService.get<string>('DB_DATABASE');
   }
 
-  get entities(): string[] {
-    const entitiesPath = join(process.cwd(), 'src', 'entities');
-
-    const entities = [entitiesPath + '/*.entity.{ts,js}'];
-
-    console.log('entities: ', entities);
-
-    return entities;
-  }
-
   async migrations() {
     let migrations = [];
-    const migrationsDir = join(process.cwd(), 'migrations');
+    const migrationsDir = process.env.PATH_MIGRATION ? process.env.PATH_MIGRATION : join(process.cwd(), 'dist', 'src', 'migrations');
 
     if (!existsSync(migrationsDir)) return migrations;
 
@@ -54,7 +44,7 @@ export class DatabaseConfigService {
 
     for (const file of migrationFiles) {
       const migrationClass = await import(`${migrationsDir}/${file}`);
-      migrations = [ ...migrations, ...Object.values(migrationClass) ];
+      migrations = [...migrations, ...Object.values(migrationClass)];
     }
 
     return migrations;
