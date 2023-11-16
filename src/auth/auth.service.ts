@@ -28,7 +28,7 @@ export class AuthService {
         this.secretKeyRefresh = authConfigService.secretKeyRefresh;
         this.jwtExpirationTime = authConfigService.JWTExpirationTime;
         this.refreshTokenExpirationTime = authConfigService.JWTExpirationTimeRefresh;
-        this.log = loggerFactory.createLogger();
+        this.log = loggerFactory.createLogger(AuthService);
     }
 
 
