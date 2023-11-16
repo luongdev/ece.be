@@ -13,6 +13,7 @@ export class LdapService extends PassportStrategy(Strategy, 'ldap') {
     ) {
         super(LdapService.createOptions(_configService), async (req: Request, user: any, done) => {
             req['user'] = user;
+            user.username = req.body.username;
             return done(null, user);
         });
     }
