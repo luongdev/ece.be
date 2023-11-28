@@ -1,5 +1,5 @@
 import { INVALID_TOKEN } from '@/constants/errors';
-import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
+import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
@@ -27,18 +27,10 @@ export class JwtMiddleware implements NestMiddleware {
 
                 next();
             } catch (err) {
-                return res.json({
-                    code: HttpStatus.UNAUTHORIZED,
-                    success: false,
-                    errors: err.message
-                });
+                throw new UnauthorizedException(err.message);
             }
         } else {
-            return res.json({
-                code: HttpStatus.UNAUTHORIZED,
-                success: false,
-                errors: INVALID_TOKEN
-            });
+            throw new UnauthorizedException(INVALID_TOKEN);
         }
     }
 }
