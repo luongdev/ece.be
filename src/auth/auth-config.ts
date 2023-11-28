@@ -16,11 +16,11 @@ export class AuthConfigService {
     }
 
     get JWTExpirationTime(): string {
-        return this._configService.get<string>('JWT_EXPIRATION_TINE') || '1d';
+        return this._configService.get<string>('JWT_EXPIRATION_TIME') || '5p';
     }
 
     get JWTExpirationTimeRefresh(): string {
-        return this._configService.get<string>('JWT_EXPIRATION_TINE_REFRESH') || '3d';
+        return this._configService.get<string>('JWT_EXPIRATION_TIME_REFRESH') || '1d';
     }
 
 }
