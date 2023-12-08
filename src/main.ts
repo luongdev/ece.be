@@ -25,14 +25,14 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document);
 
-    appService.logger.info(`Swagger listening on http://0.0.0.0:${3000}/docs`);
+    appService.logger.info(`Swagger listening on http://0.0.0.0:${4000}/docs`);
   }
 
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalFilters(new HttpStatusFilter(app.get(HttpAdapterHost)));
 
-  await app.listen(3000);
+  await app.listen(4000);
 }
 
 bootstrap().catch(console.error);

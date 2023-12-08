@@ -8,9 +8,8 @@ export class AuthController {
     ) { }
 
     @Post('refresh-token')
-    async refreshAccessToken(@Req() req, @Body() { refreshToken }: { refreshToken: string; }): Promise<any> {
-        const username = req?.user?.username;
-        const { newAccessToken, newRefreshToken } = await this._authService.refreshAccessToken(refreshToken, username);
+    async refreshAccessToken(@Body() { refreshToken }: { refreshToken: string; }): Promise<any> {
+        const { newAccessToken, newRefreshToken } = await this._authService.refreshAccessToken(refreshToken);
 
         return { token: newAccessToken, refreshToken: newRefreshToken };
     }
