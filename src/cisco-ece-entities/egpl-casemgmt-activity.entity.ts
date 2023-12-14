@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { egmlEmailEntity } from './egml-email.entity';
 
-@Entity({ name: 'EGML_CASEMGMT_ACTIVITY_9000' })
-export class egmlCasemgmtActivity {
+@Entity({ name: 'EGPL_CASEMGMT_ACTIVITY_9000' })
+export class egplCasemgmtActivity {
     @PrimaryColumn()
     ACTIVITY_ID: number;
 
@@ -131,4 +132,8 @@ export class egmlCasemgmtActivity {
 
     @Column({ nullable: true })
     ISSUE_TYPE_ID: number;
+
+    @OneToOne(() => egmlEmailEntity, (email) => email.activity)
+    @JoinColumn({ name: 'ACTIVITY_ID', referencedColumnName: 'ACTIVITY_ID' })
+    email: egmlEmailEntity[];
 };

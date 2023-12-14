@@ -1,10 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
-import { egmlCasemgmtActivity } from './agml-casemgmt-activity.entity';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { egplCasemgmtActivity } from './egpl-casemgmt-activity.entity';
 
 @Entity({ name: 'EGML_EMAIL' })
 export class egmlEmailEntity {
-    @PrimaryColumn()
-    EMAIL_ID: number;
+    @PrimaryColumn({ name: ''})
+    emailId: number;
 
     @Column({ nullable: false })
     ACTIVITY_ID: number;
@@ -38,4 +38,8 @@ export class egmlEmailEntity {
 
     @Column({ nullable: false })
     DELETE_FLAG: string;
+
+    @OneToOne(() => egplCasemgmtActivity, (activity) => activity.email)
+    @JoinColumn({ name: 'ACTIVITY_ID', referencedColumnName: 'ACTIVITY_ID' })
+    activity: egplCasemgmtActivity[];
 };
