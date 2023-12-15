@@ -3,137 +3,136 @@ import { egmlEmailEntity } from './egml-email.entity';
 
 @Entity({ name: 'EGPL_CASEMGMT_ACTIVITY_9000' })
 export class egplCasemgmtActivity {
-    @PrimaryColumn()
-    ACTIVITY_ID: number;
+    @PrimaryColumn({ name: 'ACTIVITY_ID' })
+    activityId: number;
 
-    @Column({ nullable: true })
-    CASE_ID: number;
+    @Column({ nullable: true, name: 'CASE_ID' })
+    caseId: number;
 
-    @Column({ nullable: true })
-    DEPARTMENT_ID: number;
+    @Column({ nullable: true, name: 'DEPARTMENT_ID' })
+    departmentId: number;
 
-    @Column({ nullable: true })
-    ACTIVITY_MODE: number;
+    @Column({ nullable: true, name: 'ACTIVITY_MODE' })
+    activityMode: number;
 
-    @Column({ nullable: false })
-    ACTIVITY_TYPE: number;
+    @Column({ nullable: false, name: 'ACTIVITY_TYPE' })
+    activityType: number;
 
-    @Column({ nullable: false })
-    ACTIVITY_SUB_TYPE: number;
+    @Column({ nullable: false, name: 'ACTIVITY_SUB_TYPE' })
+    activitySubType: number;
 
-    @PrimaryColumn()
-    @Column({ nullable: false })
-    ACTIVITY_STATUS: number;
+    @Column({ nullable: false, name: 'ACTIVITY_STATUS' })
+    activityStatus: number;
 
-    @Column({ nullable: false })
-    ACTIVITY_SUB_STATUS: number;
+    @Column({ nullable: false, name: 'ACTIVITY_SUB_STATUS' })
+    activitySubStatus: number;
 
-    @Column({ nullable: true })
-    ACTIVITY_PRIORITY: number;
+    @Column({ nullable: true, name: 'ACTIVITY_PRIORITY' })
+    activityPriority: number;
 
-    @Column({ nullable: false })
-    WHEN_CREATED: Date;
+    @Column({ nullable: false, name: 'WHEN_CREATED' })
+    createdOn: Date;
 
-    @Column({ nullable: false })
-    WHO_CREATED: number;
+    @Column({ nullable: false, name: 'WHO_CREATED' })
+    whoCreated: number;
 
-    @Column({ nullable: true })
-    WHEN_MODIFIED: Date;
+    @Column({ nullable: true, name: 'WHEN_MODIFIED' })
+    whenModified: Date;
 
-    @Column({ nullable: true })
-    DUE_DATE: Date;
+    @Column({ nullable: true, name: 'DUE_DATE' })
+    dueDate: Date;
 
-    @Column({ nullable: true })
-    USER_LAST_WORKED: number;
+    @Column({ nullable: true, name: 'USER_LAST_WORKED' })
+    userLastWorked: number;
 
-    @Column({ nullable: true })
-    ASSIGNED_TO: number;
+    @Column({ nullable: true, name: 'ASSIGNED_TO' })
+    assignedTo: number;
 
-    @Column({ nullable: true })
-    SUBJECT: string;
+    @Column({ nullable: true, name: 'SUBJECT' })
+    subject: string;
 
-    @Column({ nullable: true })
-    DESCRIPTION: string;
+    @Column({ nullable: true, name: 'DESCRIPTION' })
+    description: string;
 
-    @Column({ nullable: true })
-    LANGUAGE_ID: number;
+    @Column({ nullable: true, name: 'LANGUAGE_ID' })
+    languageId: number;
 
-    @Column({ nullable: true })
-    CUSTOMER_ID: number;
+    @Column({ nullable: true, name: 'CUSTOMER_ID' })
+    customerId: number;
 
-    @Column({ nullable: true })
-    CONTACT_PERSON_ID: number;
+    @Column({ nullable: true, name: 'CONTACT_PERSON_ID' })
+    contactPersonId: number;
 
-    @Column({ nullable: true })
-    QUEUE_ID: number;
+    @Column({ nullable: true, name: 'QUEUE_ID' })
+    queueId: number;
 
-    @Column({ nullable: true })
-    CONTACT_POINT_ID: number;
+    @Column({ nullable: true, name: 'CONTACT_POINT_ID' })
+    contactPointId: number;
 
-    @Column({ nullable: true })
-    CONTACT_POINT_DATA: string;
+    @Column({ nullable: true, name: 'CONTACT_POINT_DATA' })
+    contactPointData: string;
 
-    @Column({ nullable: true })
-    LAST_ACTION_REASON: string;
+    @Column({ nullable: true, name: 'LAST_ACTION_REASON' })
+    lastActionReason: string;
 
-    @Column({ nullable: false })
-    PINNED: string;
+    @Column({ nullable: false, name: 'PINNED' })
+    pinned: string;
 
-    @Column({ nullable: false })
-    LOCKED: string;
+    @Column({ nullable: false, name: 'LOCKED' })
+    locked: string;
 
-    @Column({ nullable: false })
-    ACTIVITY_ACCESS: number;
+    @Column({ nullable: false, name: 'ACTIVITY_ACCESS' })
+    activityAccess: number;
 
-    @Column({ nullable: true })
-    FOLDER_ID: number;
+    @Column({ nullable: true, name: 'FOLDER_ID' })
+    folderId: number;
 
-    @Column({ nullable: true })
-    LAST_DEPARTMENT_ID: number;
+    @Column({ nullable: true, name: 'LAST_DEPARTMENT_ID' })
+    lastDepartmentId: number;
 
-    @Column({ nullable: false })
-    SAVE_DRAFT_FLAG: number;
+    @Column({ nullable: false, name: 'SAVE_DRAFT_FLAG' })
+    saveDraftFlag: number;
 
-    @Column({ nullable: true })
-    LEAVE_OPEN_FLAG: number;
+    @Column({ nullable: true, name: 'LEAVE_OPEN_FLAG' })
+    leaveOpenFlag: number;
 
-    @Column({ nullable: true })
-    NUM_NOTES: number;
+    @Column({ nullable: true, name: 'NUM_NOTES' })
+    numNotes: number;
 
-    @Column({ nullable: true })
-    NUM_ATTACHMENTS: number;
+    @Column({ nullable: true, name: 'NUM_ATTACHMENTS' })
+    numAttachments: number;
 
-    @Column({ nullable: true })
-    CASE_TYPE: number;
+    @Column({ nullable: true, name: 'CASE_TYPE' })
+    caseType: number;
 
-    @Column({ nullable: false })
-    DELETE_FLAG: string;
+    @Column({ nullable: false, name: 'DELETE_FLAG' })
+    deleteFlag: string;
 
-    @Column({ nullable: true })
-    CONFERENCE_FLAG: string;
+    @Column({ nullable: true, name: 'CONFERENCE_FLAG' })
+    conferenceFlag: string;
 
-    @Column({ nullable: true })
-    IS_ESCALATED: string;
+    @Column({ nullable: true, name: 'IS_ESCALATED' })
+    isEscalated: string;
 
-    @Column({ nullable: false })
-    OUTBOUND_FAILED: number;
+    @Column({ nullable: false, name: 'OUTBOUND_FAILED' })
+    outboundFailed: number;
 
-    @Column({ nullable: true })
-    VISITOR_SESSION_ID: string;
+    @Column({ nullable: true, name: 'VISITOR_SESSION_ID' })
+    visitorSessionId: string;
 
-    @Column({ nullable: true })
-    VISITOR_USER_ID: string;
+    @Column({ nullable: true, name: 'VISITOR_USER_ID' })
+    visitorUserId: string;
 
-    @Column({ nullable: true })
-    CUST_ACCOUNT_ID: string;
+    @Column({ nullable: true, name: 'CUST_ACCOUNT_ID' })
+    custAccountId: string;
 
-    @Column({ nullable: true })
-    DELAY_TIME_IN_MIN: number;
+    @Column({ nullable: true, name: 'DELAY_TIME_IN_MIN' })
+    delayTimeInMin: number;
 
-    @Column({ nullable: true })
-    ISSUE_TYPE_ID: number;
+    @Column({ nullable: true, name: 'ISSUE_TYPE_ID' })
+    issueTypeId: number;
 
     @OneToOne(() => egmlEmailEntity, (email) => email.activity)
-    @JoinColumn({ name: 'ACTIVITY_ID', referencedColumnName: 'ACTIVITY_ID' })
+    @JoinColumn({ name: 'ACTIVITY_ID', referencedColumnName: 'activityId' })
     email: egmlEmailEntity[];
 };

@@ -3,43 +3,43 @@ import { egplCasemgmtActivity } from './egpl-casemgmt-activity.entity';
 
 @Entity({ name: 'EGML_EMAIL' })
 export class egmlEmailEntity {
-    @PrimaryColumn({ name: ''})
+    @PrimaryColumn({ name: 'EMAIL_ID' })
     emailId: number;
 
-    @Column({ nullable: false })
-    ACTIVITY_ID: number;
+    @Column({ nullable: false, name: 'ACTIVITY_ID' })
+    activityId: number;
 
-    @Column({ nullable: false })
-    ALIAS_ID: number;
+    @Column({ nullable: false, name: 'ALIAS_ID' })
+    aliasId: number;
 
-    @Column({ nullable: false })
-    SUBJECT: string;
+    @Column({ nullable: false, name: 'SUBJECT' })
+    subject: string;
 
-    @Column({ nullable: false })
-    EMAIL_DATE: Date;
+    @Column({ nullable: false, name: 'EMAIL_DATE' })
+    emailDate: Date;
 
-    @Column({ nullable: false })
-    EMAIL_SIZE: number;
+    @Column({ nullable: false, name: 'EMAIL_SIZE' })
+    emailSize: number;
 
-    @Column({ nullable: false })
-    NUM_ATTACHMENTS: number;
+    @Column({ nullable: false, name: 'NUM_ATTACHMENTS' })
+    numberAttachments: number;
 
-    @Column({ nullable: true })
-    CHARSET: string;
+    @Column({ nullable: true, name: 'CHARSET' })
+    charset: string;
 
-    @Column({ nullable: true })
-    MESSAGE_ID: string;
+    @Column({ nullable: true, name: 'MESSAGE_ID' })
+    messageId: string;
 
-    @Column({ nullable: false })
-    FROM_EMAIL_ADDRESS: string;
+    @Column({ nullable: false, name: 'FROM_EMAIL_ADDRESS' })
+    fromEmailAddress: string;
 
-    @Column({ nullable: false })
-    RECV_EMAIL_ADDRESS: string;
+    @Column({ nullable: false, name: 'RECV_EMAIL_ADDRESS' })
+    recvEmailAddress: string;
 
-    @Column({ nullable: false })
-    DELETE_FLAG: string;
+    @Column({ nullable: false, name: 'DELETE_FLAG' })
+    deleteFlag: string;
 
     @OneToOne(() => egplCasemgmtActivity, (activity) => activity.email)
-    @JoinColumn({ name: 'ACTIVITY_ID', referencedColumnName: 'ACTIVITY_ID' })
+    @JoinColumn({ name: 'ACTIVITY_ID', referencedColumnName: 'activityId' })
     activity: egplCasemgmtActivity[];
 };

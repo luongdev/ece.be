@@ -24,7 +24,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             trustServerCertificate: true,
           },
           autoLoadEntities: true,
-          logging: true
+          // logging: true
         } as TypeOrmModuleAsyncOptions);
       },
     }),
