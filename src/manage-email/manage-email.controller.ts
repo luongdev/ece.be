@@ -15,4 +15,9 @@ export class ManageEmailController {
     return this.manageEmailService.getActivityDetail(activityId);
   }
 
+  @Get('/case-detail/:caseId')
+  getCaseDetail(@Param('caseId') caseId) {
+    return this.manageEmailService.getCaseDetail(caseId);
+  }
+
 }
