@@ -1,13 +1,14 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ManageEmailService } from './manage-email.service';
+import { GetListDto } from './dto/get-list.dto';
 
 @Controller('manage-email')
 export class ManageEmailController {
   constructor(private readonly manageEmailService: ManageEmailService) { }
 
   @Get('/get-list')
-  getListEmail() {
-    return this.manageEmailService.getListEmail();
+  getListEmail(@Query() getListDto: GetListDto) {
+    return this.manageEmailService.getListEmail(getListDto);
   }
 
   @Get('/activity-detail/:activityId')

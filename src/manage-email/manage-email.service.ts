@@ -1,7 +1,8 @@
 import { egplCasemgmtActivity } from '@/cisco-ece-entities/egpl-casemgmt-activity.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
+import { GetListDto } from './dto/get-list.dto';
 
 @Injectable()
 export class ManageEmailService {
@@ -10,8 +11,20 @@ export class ManageEmailService {
     private egplCasemgmtActivityRepository: Repository<egplCasemgmtActivity>,
   ) { }
 
-  async getListEmail() {
-    const listMail = await this.egplCasemgmtActivityRepository.find({
+  async getListEmail(getListDto: GetListDto) {
+    const { page, pageSize, searchMulti } = getListDto;
+    let _query = {};
+    if (searchMulti && searchMulti !== '') {
+      _query = [
+        { activityId: Number(searchMulti) },
+        { caseId: Number(searchMulti) },
+        { subject: Like('%' + searchMulti + '%') }
+      ];
+    }
+    const [listData, totalData] = await this.egplCasemgmtActivityRepository.findAndCount({
+      where: _query,
+      take: pageSize,
+      skip: (page - 1) * pageSize,
       select: {
         email: {
           activityId: true,
@@ -31,7 +44,7 @@ export class ManageEmailService {
         activityMode: true
       }, relations: ['email']
     });
-    return listMail;
+    return { listData, totalData };
   }
 
   async getActivityDetail(activityId) {

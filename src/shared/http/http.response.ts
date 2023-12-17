@@ -6,6 +6,7 @@ export interface ResponseBase<T> {
   errors?: { code?: string, message?: string; }[];
   message?: string;
   data?: T;
+  totalData?: number;
 }
 
 @Injectable()
@@ -20,7 +21,8 @@ export class TransformInterceptor<T> implements NestInterceptor<T, ResponseBase<
           return ({
             code: HttpStatus.OK,
             success: true,
-            data
+            data: data && data.listData ? data.listData : data,
+            totalData: data && data.totalData ? data.totalData : undefined,
           } as ResponseBase<any>);
         })
       );
