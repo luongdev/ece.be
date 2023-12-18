@@ -10,6 +10,7 @@ import { JwtMiddleware } from './auth/auth-middleware';
 import { LogoutModule } from './logout/logout.module';
 import { ConfigColumnsModule } from './config-columns/config-columns.module';
 import { ManageEmailModule } from './manage-email/manage-email.module';
+import { EmailAttachmentModule } from '@/email-attachment/email-columns.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { ManageEmailModule } from './manage-email/manage-email.module';
     LoginModule,
     LogoutModule,
     ConfigColumnsModule,
-    ManageEmailModule
+    ManageEmailModule,
+    EmailAttachmentModule,
   ],
   providers: [AppService],
 })
