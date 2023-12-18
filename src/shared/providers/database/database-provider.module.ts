@@ -23,7 +23,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           extra: {
             trustServerCertificate: true,
           },
-          autoLoadEntities: true
+          autoLoadEntities: true,
+          // logging: true
         } as TypeOrmModuleAsyncOptions);
       },
     }),

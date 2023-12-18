@@ -45,24 +45,24 @@ export class AuthService {
         return refreshToken;
     }
 
-    async refreshAccessToken(refreshToken: string, username: string) {
+    async refreshAccessToken(refreshToken: string) {
         try {
-            const hashRefreshToken = await crypto.createHash('sha256').update(refreshToken).digest('hex');
-
-            const checkExists = await this.refreshTokenRepository.findOne({ where: { username, refreshToken: hashRefreshToken } });
-
-            if (!checkExists) throw new BadRequestException(REFRESH_TOKEN_NOT_EXISTS);
-
             const decoded = jwt.verify(refreshToken, this.secretKeyRefresh);
             delete decoded.exp;
             delete decoded.iat;
+
+            const hashRefreshToken = await crypto.createHash('sha256').update(refreshToken).digest('hex');
+
+            const checkExists = await this.refreshTokenRepository.findOne({ where: { username: decoded.username, refreshToken: hashRefreshToken } });
+
+            if (!checkExists) throw new BadRequestException(REFRESH_TOKEN_NOT_EXISTS);
 
             const newAccessToken = this.generateJwtToken(decoded);
             const newRefreshToken = await this.generateRefreshToken(decoded);
 
             return { newAccessToken, newRefreshToken };
         } catch (error) {
-            throw new UnauthorizedException(error.message);
+            throw new UnauthorizedException('Get new token fail !');
         }
     }
 

@@ -11,6 +11,7 @@ import { ConfigColumnEntity } from './entities/config-column.entity';
     ]),
   ],
   controllers: [ConfigColumnsController],
-  providers: [ConfigColumnsService]
+  providers: [ConfigColumnsService],
+  exports: [ConfigColumnsService]
 })
 export class ConfigColumnsModule { }

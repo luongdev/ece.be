@@ -9,6 +9,7 @@ import { LoginModule } from './login/login.module';
 import { JwtMiddleware } from './auth/auth-middleware';
 import { LogoutModule } from './logout/logout.module';
 import { ConfigColumnsModule } from './config-columns/config-columns.module';
+import { ManageEmailModule } from './manage-email/manage-email.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { ConfigColumnsModule } from './config-columns/config-columns.module';
     LdapModule,
     LoginModule,
     LogoutModule,
-    ConfigColumnsModule
+    ConfigColumnsModule,
+    ManageEmailModule
   ],
   providers: [AppService],
 })
