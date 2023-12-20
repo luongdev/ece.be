@@ -1,5 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { egplCasemgmtActivity } from './egpl-casemgmt-activity.entity';
+import { egmlEmailAddressEntity } from './egml-email-address.entity';
+import { egmlEmailAttachmentLinkEntity } from './egml-email-attachment-link.entity';
 
 @Entity({ name: 'EGML_EMAIL' })
 export class egmlEmailEntity {
@@ -41,5 +43,13 @@ export class egmlEmailEntity {
 
     @OneToOne(() => egplCasemgmtActivity, (activity) => activity.email)
     @JoinColumn({ name: 'ACTIVITY_ID', referencedColumnName: 'activityId' })
-    activity: egplCasemgmtActivity[];
+    activity: egplCasemgmtActivity;
+
+    @OneToMany(() => egmlEmailAddressEntity, (emailAddress) => emailAddress.email)
+    @JoinColumn({ name: 'EMAIL_ID', referencedColumnName: 'emailId' })
+    emailAddressTo: egmlEmailAddressEntity[];
+
+    @OneToMany(() => egmlEmailAttachmentLinkEntity, (emailAddress) => emailAddress.email)
+    @JoinColumn({ name: 'EMAIL_ID', referencedColumnName: 'emailId' })
+    emailAttachmentLink: egmlEmailAttachmentLinkEntity[];
 };

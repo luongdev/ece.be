@@ -1,5 +1,5 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
-
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { egplCasemgmtActivity } from './egpl-casemgmt-activity.entity';
 @Entity({ name: 'EGPL_USER' })
 export class egplUserEntity {
   @PrimaryColumn({ name: 'USED_ID' })
@@ -124,4 +124,8 @@ export class egplUserEntity {
 
   @Column({ nullable: false, name: 'AUTHENTICATION_TYPE' })
   authenticationType: number;
+
+  @OneToOne(() => egplCasemgmtActivity, (activity) => activity.user)
+  @JoinColumn({ name: 'USED_ID', referencedColumnName: 'assignedTo' })
+  activity: egplCasemgmtActivity;
 }

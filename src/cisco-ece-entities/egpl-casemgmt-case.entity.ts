@@ -1,65 +1,65 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity({ name: 'EGPL_ROUTING_QUEUE' })
+@Entity({ name: 'EGPL_CASEMGMT_CASE' })
 export class egplCasemgmtCaseEntity {
   @PrimaryColumn({ name: 'CASE_ID' })
-    caseId: number;
+  caseId: number;
 
   @Column({ nullable: false, name: 'CASE_STATUS' })
-    caseStatus: string;
+  caseStatus: string;
 
   @Column({ nullable: true, name: 'CASE_GROUP_ID' })
-    caseGroupId: number;
+  caseGroupId: number;
 
   @Column({ nullable: false, name: 'DEPARTMENT_ID' })
-    departmentId: number;
+  departmentId: number;
 
   @Column({ nullable: false, name: 'ORIGINAL_SOURCE' })
-    originalSource: string;
+  originalSource: string;
 
   @Column({ nullable: false, name: 'WHEN_CREATED' })
-    whenCreated: Date;
+  whenCreated: Date;
 
   @Column({ nullable: false, name: 'WHO_CREATED' })
-    whoCreated: number;
+  whoCreated: number;
 
   @Column({ nullable: true, name: 'WHO_MODIFIED' })
-    whoModified: number;
+  whoModified: number;
 
   @Column({ nullable: true, name: 'WHEN_MODIFIED' })
-    whenModified: Date;
+  whenModified: Date;
 
   @Column({ nullable: true, name: 'DUE_DATE' })
-    dueDate: Date;
+  dueDate: Date;
 
   @Column({ nullable: false, name: 'OWNER' })
-    owner: number;
+  owner: number;
 
   @Column({ nullable: true, name: 'CUSTOMER_ID' })
-    customerId: number;
+  customerId: number;
 
   @Column({ nullable: false, name: 'SEVERITY' })
-    severity: number;
+  severity: number;
 
   @Column({ nullable: true, name: 'SUBJECT' })
-    subject: string;
+  subject: string;
 
   @Column({ nullable: false, name: 'CASE_ACCESS' })
-    caseAccess: number;
+  caseAccess: number;
 
   @Column({ nullable: true, name: 'DESCRIPTION' })
-    description: string;
+  description: string;
 
   @Column({ nullable: true, name: 'SOLUTION_DESCRIPTION' })
-    solutionDescription: string;
+  solutionDescription: string;
 
   @Column({ nullable: true, name: 'FOLDER_ID' })
-    folderId: number;
+  folderId: number;
 
   @Column({ nullable: true, name: 'USER_LAST_WORKED' })
-    userLastWorked: number;
+  userLastWorked: number;
 
   @Column({ nullable: false, name: 'DELETE_FLAG' })
-    deleteFlag: string;
+  deleteFlag: string;
 
 };

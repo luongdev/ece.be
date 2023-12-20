@@ -20,10 +20,6 @@ export class ConfigColumnsService {
     return this.configColumnRepository.save(checkExistConfig);
   }
 
-  async delete(username: string) {
-    return this.configColumnRepository.delete({ username });
-  }
-
   async findConfigByUserName(username: string) {
     return this.configColumnRepository.findOneBy({ username: username });
   }

@@ -1,5 +1,8 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { egmlEmailEntity } from './egml-email.entity';
+import { egplUserEntity } from './egpl-user.entity';
+import { egplRoutingQueueEntity } from './egpl-routing-queue.entity';
+import { egmlEmailDataAltEntity } from './egml-email-data-alt.entity';
 
 @Entity({ name: 'EGPL_CASEMGMT_ACTIVITY_9000' })
 export class egplCasemgmtActivity {
@@ -134,5 +137,17 @@ export class egplCasemgmtActivity {
 
     @OneToOne(() => egmlEmailEntity, (email) => email.activity)
     @JoinColumn({ name: 'ACTIVITY_ID', referencedColumnName: 'activityId' })
-    email: egmlEmailEntity[];
+    email: egmlEmailEntity;
+
+    @OneToOne(() => egplUserEntity, (user) => user.activity)
+    @JoinColumn({ name: 'ASSIGNED_TO', referencedColumnName: 'userId' })
+    user: egplUserEntity;
+
+    @OneToOne(() => egplRoutingQueueEntity, (queue) => queue.activity)
+    @JoinColumn({ name: 'QUEUE_ID', referencedColumnName: 'queueId' })
+    queue: egplRoutingQueueEntity;
+
+    @OneToOne(() => egmlEmailDataAltEntity, (dataAlt) => dataAlt.activity)
+    @JoinColumn({ name: 'ACTIVITY_ID', referencedColumnName: 'activityId' })
+    emailDataAlt: egmlEmailDataAltEntity;
 };
