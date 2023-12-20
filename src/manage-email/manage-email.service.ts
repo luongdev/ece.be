@@ -7,10 +7,9 @@ import { GetListDto } from './dto/get-list.dto';
 @Injectable()
 export class ManageEmailService {
   constructor(
-        @InjectRepository(egplCasemgmtActivity)
-        private egplCasemgmtActivityRepository: Repository<egplCasemgmtActivity>,
-  ) {
-  }
+    @InjectRepository(egplCasemgmtActivity)
+    private egplCasemgmtActivityRepository: Repository<egplCasemgmtActivity>,
+  ) { }
 
   async getListEmail(getListDto: GetListDto) {
     const { page, pageSize, searchMulti } = getListDto;
@@ -201,7 +200,7 @@ export class ManageEmailService {
         {
           name: 'Description',
           content: 'Khuyến cáo an toàn khi sử dụng thẻ tín dụng và tài khoản ngân hàng.' +
-                        'Khuyến cáo an toàn khi sử dụng thẻ tín dụng và tài khoản ngân hàng',
+            'Khuyến cáo an toàn khi sử dụng thẻ tín dụng và tài khoản ngân hàng',
         },
         {
           name: 'Description of solution',

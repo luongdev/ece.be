@@ -11,6 +11,8 @@ import { LogoutModule } from './logout/logout.module';
 import { ConfigColumnsModule } from './config-columns/config-columns.module';
 import { ManageEmailModule } from './manage-email/manage-email.module';
 import { EmailAttachmentModule } from '@/email-attachment/email-columns.module';
+import { ManageUserModule } from './manage-user/manage-user.module';
+import { ManageQueueModule } from './manage-queue/manage-queue.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { EmailAttachmentModule } from '@/email-attachment/email-columns.module';
     ConfigColumnsModule,
     ManageEmailModule,
     EmailAttachmentModule,
+    ManageUserModule,
+    ManageQueueModule,
   ],
   providers: [AppService],
 })
@@ -33,7 +37,8 @@ export class AppModule implements NestModule {
     consumer
       .apply(JwtMiddleware)
       .exclude(
-        { path: '/api/login', method: RequestMethod.POST }
+        { path: '/api/login', method: RequestMethod.POST },
+        { path: '/api/auth/refresh-token', method: RequestMethod.POST },
       ) // Exclude login route
       .forRoutes('*'); // Apply the middleware to all routes
   }

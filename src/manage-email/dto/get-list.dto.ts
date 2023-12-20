@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsString } from "class-validator";
+import { IsArray, IsOptional, IsString } from "class-validator";
 
 export class GetListDto {
     @IsString()
@@ -12,4 +12,68 @@ export class GetListDto {
 
     @ApiProperty({ required: true, default: 10 })
     pageSize: number;
+
+    @IsString()
+    @IsOptional()
+    caseId: string;
+
+    @IsString()
+    @IsOptional()
+    caseIdCondition: string;
+
+    @IsString()
+    @IsOptional()
+    activityId: string;
+
+    @IsString()
+    @IsOptional()
+    activityIdCondition: string;
+
+    @IsString()
+    @IsOptional()
+    subject: string;
+
+    @IsString()
+    @IsOptional()
+    subjectCondition: string;
+
+    @IsString()
+    @IsOptional()
+    from: string;
+
+    @IsString()
+    @IsOptional()
+    fromCondition: string;
+
+    @IsString()
+    @IsOptional()
+    to: string;
+
+    @IsString()
+    @IsOptional()
+    toCondition: string;
+
+    @IsArray()
+    @IsOptional()
+    assignedTo: [];
+
+    @IsArray()
+    @IsOptional()
+    createOn: [];
+
+    @IsString()
+    @IsOptional()
+    subStatus: string;
+
+    @IsArray()
+    @IsOptional()
+    queueName: [];
+
+    @IsString()
+    @IsOptional()
+    file: string;
+
+    @IsString()
+    @IsOptional()
+    direction: string;
 }

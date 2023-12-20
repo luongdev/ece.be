@@ -9,11 +9,10 @@ import { egplCasemgmtActivity } from '@/cisco-ece-entities/egpl-casemgmt-activit
   imports: [
     TypeOrmModule.forFeature([
       egmlEmailEntity,
-      egplCasemgmtActivity,
-    ]),
+      egplCasemgmtActivity
+    ])
   ],
   controllers: [ManageEmailController],
   providers: [ManageEmailService],
 })
-export class ManageEmailModule {
-}
+export class ManageEmailModule { }
