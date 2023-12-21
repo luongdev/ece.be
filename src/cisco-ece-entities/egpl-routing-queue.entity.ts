@@ -1,83 +1,88 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { egplCasemgmtActivity } from './egpl-casemgmt-activity.entity';
 
 @Entity({ name: 'EGPL_ROUTING_QUEUE' })
 export class egplRoutingQueueEntity {
   @PrimaryColumn({ name: 'QUEUE_ID' })
-    queueId: number;
+  queueId: number;
 
   @Column({ nullable: false, name: 'QUEUE_NAME' })
-    queueName: string;
+  queueName: string;
 
   @Column({ nullable: false, name: 'QUEUE_STATE' })
-    queueState: number;
+  queueState: number;
 
   @Column({ nullable: false, name: 'DEPARTMENT_ID' })
-    departmentId: number;
+  departmentId: number;
 
   @Column({ nullable: false, name: 'QUEUE_TYPE' })
-    queueType: number;
+  queueType: number;
 
   @Column({ nullable: false, name: 'QUEUE_ROUTING_TYPE' })
-    queueRoutingType: number;
+  queueRoutingType: number;
 
   @Column({ nullable: false, name: 'QUEUE_CHAT_ROUTING_TYPE' })
-    queueChatRoutingType: number;
+  queueChatRoutingType: number;
 
   @Column({ nullable: true, name: 'QUEUE_SKILL_FLAG' })
-    queueSkillFlag: number;
+  queueSkillFlag: number;
 
   @Column({ nullable: true, name: 'WHO_CREATED' })
-    whoCreated: number;
+  whoCreated: number;
 
   @Column({ nullable: false, name: 'WHEN_CREATED' })
-    whenCreated: Date;
+  whenCreated: Date;
 
   @Column({ nullable: true, name: 'WHO_MODIFIED' })
-    whoModified: number;
+  whoModified: number;
 
   @Column({ nullable: true, name: 'QUEUE_DESCRIPTION' })
-    queueDescription: string;
+  queueDescription: string;
 
   @Column({ nullable: true, name: 'QUEUE_LINK' })
-    queueLink: number;
+  queueLink: number;
 
   @Column({ nullable: true, name: 'QUEUE_ROUNDROBIN_INDEX' })
-    queueRoundrobinIndex: number;
+  queueRoundrobinIndex: number;
 
   @Column({ nullable: true, name: 'QUEUE_LEVEL_1_AGE_TIME' })
-    queueLevel1AgeTime: number;
+  queueLevel1AgeTime: number;
 
   @Column({ nullable: true, name: 'QUEUE_LEVEL_2_AGE_TIME' })
-    queueLevel2AgeTime: number;
+  queueLevel2AgeTime: number;
 
   @Column({ nullable: true, name: 'QUEUE_LEVEL_3_AGE_TIME' })
-    queueLevel3AgeTime: number;
+  queueLevel3AgeTime: number;
 
   @Column({ nullable: true, name: 'QUEUE_PRIORITY' })
-    queuePriority: number;
+  queuePriority: number;
 
   @Column({ nullable: true, name: 'QUEUE_PUSH_FLAG' })
-    queuePushFlag: number;
+  queuePushFlag: number;
 
   @Column({ nullable: true, name: 'CHAT_DEFAULT_TRANSFER_QUEUE' })
-    chatDefaultTransferQueue: number;
+  chatDefaultTransferQueue: number;
 
   @Column({ nullable: true, name: 'DEFAULT_KB_FOLDER' })
-    defaultKbFolder: number;
+  defaultKbFolder: number;
 
   @Column({ nullable: false, name: 'DEFAULT_SOSIAL_QUEUE' })
-    defaultSosialQueue: number;
+  defaultSosialQueue: number;
 
   @Column({ nullable: false, name: 'SOSIAL_ROUTING_TYPE' })
-    SosialRoutingType: number;
+  SosialRoutingType: number;
 
   @Column({ nullable: false, name: 'MAX_CHAT_QUEUE_DEPTH' })
-    maxChatQueueDepth: number;
+  maxChatQueueDepth: number;
 
   @Column({ nullable: false, name: 'CHAT_QUEUE_PRIORITY' })
-    chatQueuePriority: number;
+  chatQueuePriority: number;
 
   @Column({ nullable: false, name: 'CHAT_ALTERNATE_ENGAGEMENT' })
-    chatAlternateEngagement: number;
+  chatAlternateEngagement: number;
+
+  @OneToOne(() => egplCasemgmtActivity, (activity) => activity.queue)
+  @JoinColumn({ name: 'QUEUE_ID', referencedColumnName: 'queueId' })
+  activity: egplCasemgmtActivity;
 
 };

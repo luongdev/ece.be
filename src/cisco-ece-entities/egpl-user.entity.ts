@@ -1,128 +1,131 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
-
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { egplCasemgmtActivity } from './egpl-casemgmt-activity.entity';
 @Entity({ name: 'EGPL_USER' })
 export class egplUserEntity {
   @PrimaryColumn({ name: 'USED_ID' })
-    userId: number;
+  userId: number;
 
   @Column({ nullable: true, name: 'SALUTATION' })
-    salutation: string;
+  salutation: string;
 
   @Column({ nullable: true, name: 'FIRST_NAME' })
-    firstName: string;
+  firstName: string;
 
   @Column({ nullable: true, name: 'FIRST_NAME_FURIGAMA' })
-    firstNameFurigama: string;
+  firstNameFurigama: string;
 
   @Column({ nullable: true, name: 'MIDDLE_NAME' })
-    middleName: string;
+  middleName: string;
 
   @Column({ nullable: true, name: 'MIDDLE_NAME_FURIGAMA' })
-    middleNameFurigama: string;
+  middleNameFurigama: string;
 
   @Column({ nullable: true, name: 'LAST_NAME' })
-    lastName: string;
+  lastName: string;
 
   @Column({ nullable: true, name: 'LAST_NAME_FURIGAMA' })
-    lastNameFurigama: string;
+  lastNameFurigama: string;
 
   @Column({ nullable: true, name: 'SUFFIX' })
-    suffix: string;
+  suffix: string;
 
   @Column({ nullable: false, name: 'USER_NAME' })
-    userName: string;
+  userName: string;
 
   @Column({ nullable: true, name: 'PASSWORD' })
-    password: string;
+  password: string;
 
   @Column({ nullable: true, name: 'CASE_INSENSITIVE' })
-    caseInsensitive: string;
+  caseInsensitive: string;
 
   @Column({ nullable: true, name: 'LANGUAGE_PREFERENCE' })
-    languagePreference: string;
+  languagePreference: string;
 
   @Column({ nullable: true, name: 'SCREEN_NAME' })
-    screenName: string;
+  screenName: string;
 
   @Column({ nullable: true, name: 'MANAGER_ID' })
-    managerId: number;
+  managerId: number;
 
   @Column({ nullable: true, name: 'EMAIL_ADDRESS_PRIMARY' })
-    emailAddressPrimary: string;
+  emailAddressPrimary: string;
 
   @Column({ nullable: true, name: 'EMAIL_ADDRESS_SECONDARY' })
-    emailAddressSecondary: string;
+  emailAddressSecondary: string;
 
   @Column({ nullable: true, name: 'LOGIN_LOGOUT_TIME' })
-    loginLogoutTime: Date;
+  loginLogoutTime: Date;
 
   @Column({ nullable: true, name: 'NUM_OF_UNS_ATTEMPTS' })
-    numOfUnsAttempts: number;
+  numOfUnsAttempts: number;
 
   @Column({ nullable: true, name: 'FORCE_PASSWORD_CHANGE' })
-    forcePasswordChange: number;
+  forcePasswordChange: number;
 
   @Column({ nullable: true, name: 'PASSWORD_CHANGE_DATE' })
-    passwordChangeDate: Date;
+  passwordChangeDate: Date;
 
   @Column({ nullable: false, name: 'WHEN_CREATED' })
-    whenCreated: Date;
+  whenCreated: Date;
 
   @Column({ nullable: false, name: 'WHO_CREATED' })
-    whoCreated: number;
+  whoCreated: number;
 
   @Column({ nullable: false, name: 'DELETE_FLAG' })
-    deleteFlag: string;
+  deleteFlag: string;
 
   @Column({ nullable: false, name: 'USER_STATE' })
-    userState: number;
+  userState: number;
 
   @Column({ nullable: true, name: 'ACD_NAME' })
-    acdName: string;
+  acdName: string;
 
   @Column({ nullable: true, name: 'FIRST_UNS_ATTEMPT_TIME' })
-    firstUnsAttemptTime: Date;
+  firstUnsAttemptTime: Date;
 
   @Column({ nullable: true, name: 'NUM_OF_UNS_TIMED_ATTEMPTS' })
-    numOfUnsTimedAttempts: number;
+  numOfUnsTimedAttempts: number;
 
   @Column({ nullable: true, name: 'ACD_EXTENSION' })
-    acdExtension: number;
+  acdExtension: number;
 
   @Column({ nullable: true, name: 'SYS_USER' })
-    sysUser: number;
+  sysUser: number;
 
   @Column({ nullable: true, name: 'MUTABLE_USER' })
-    mutableUser: number;
+  mutableUser: number;
 
   @Column({ nullable: true, name: 'WHO_MODIFIED' })
-    whoModified: number;
+  whoModified: number;
 
   @Column({ nullable: true, name: 'WHEN_MODIFIED' })
-    whenModified: Date;
+  whenModified: Date;
 
   @Column({ nullable: false, name: 'DEPARTMENT_ID' })
-    departmentId: number;
+  departmentId: number;
 
   @Column({ nullable: true, name: 'HIRE_DATE' })
-    hireDate: Date;
+  hireDate: Date;
 
   @Column({ nullable: true, name: 'USER_TYPE' })
-    userType: number;
+  userType: number;
 
   @Column({ nullable: true, name: 'EXTERNAL_ASSIGNMENT' })
-    externalAssignment: string;
+  externalAssignment: string;
 
   @Column({ nullable: true, name: 'LOGIN_IP' })
-    loginIp: string;
+  loginIp: string;
 
   @Column({ nullable: true, name: 'DEFAULT_CONTENT_LANG_ID' })
-    defaultContentLangId: number;
+  defaultContentLangId: number;
 
   @Column({ nullable: true, name: 'CONTENT_LANGUAGE' })
-    contentLanguage: number;
+  contentLanguage: number;
 
   @Column({ nullable: false, name: 'AUTHENTICATION_TYPE' })
-    authenticationType: number;
+  authenticationType: number;
 
-};
+  @OneToOne(() => egplCasemgmtActivity, (activity) => activity.user)
+  @JoinColumn({ name: 'USED_ID', referencedColumnName: 'assignedTo' })
+  activity: egplCasemgmtActivity;
+}

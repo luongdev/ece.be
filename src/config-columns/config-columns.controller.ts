@@ -12,9 +12,4 @@ export class ConfigColumnsController {
     return this.configColumnsService.create(username, body);
   }
 
-  @Delete()
-  delete(@Req() req) {
-    const username = req?.user?.username;
-    return this.configColumnsService.delete(username);
-  }
 }
