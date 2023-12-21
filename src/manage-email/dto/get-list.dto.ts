@@ -59,7 +59,7 @@ export class GetListDto {
 
     @IsArray()
     @IsOptional()
-    createOn: [];
+    createOn: any;
 
     @IsString()
     @IsOptional()
