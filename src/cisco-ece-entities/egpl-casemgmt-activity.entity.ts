@@ -3,6 +3,7 @@ import { egmlEmailEntity } from './egml-email.entity';
 import { egplUserEntity } from './egpl-user.entity';
 import { egplRoutingQueueEntity } from './egpl-routing-queue.entity';
 import { egmlEmailDataAltEntity } from './egml-email-data-alt.entity';
+import { egplCasemgmtCaseEntity } from './egpl-casemgmt-case.entity';
 
 @Entity({ name: 'EGPL_CASEMGMT_ACTIVITY_9000' })
 export class egplCasemgmtActivity {
@@ -150,4 +151,8 @@ export class egplCasemgmtActivity {
     @OneToOne(() => egmlEmailDataAltEntity, (dataAlt) => dataAlt.activity)
     @JoinColumn({ name: 'ACTIVITY_ID', referencedColumnName: 'activityId' })
     emailDataAlt: egmlEmailDataAltEntity;
+
+    @OneToOne(() => egplCasemgmtCaseEntity, (c) => c.activity)
+    @JoinColumn({ name: 'CASE_ID', referencedColumnName: 'caseId' })
+    case: egplCasemgmtCaseEntity;
 };

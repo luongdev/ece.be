@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { egplCasemgmtActivity } from './egpl-casemgmt-activity.entity';
+import { egplCasemgmtCaseEntity } from './egpl-casemgmt-case.entity';
 @Entity({ name: 'EGPL_USER' })
 export class egplUserEntity {
   @PrimaryColumn({ name: 'USED_ID' })
@@ -128,4 +129,8 @@ export class egplUserEntity {
   @OneToOne(() => egplCasemgmtActivity, (activity) => activity.user)
   @JoinColumn({ name: 'USED_ID', referencedColumnName: 'assignedTo' })
   activity: egplCasemgmtActivity;
+
+  @OneToOne(() => egplCasemgmtCaseEntity, (c) => c.ownerDetail)
+  @JoinColumn({ name: 'USED_ID', referencedColumnName: 'owner' })
+  case: egplCasemgmtCaseEntity;
 }

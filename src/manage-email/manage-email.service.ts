@@ -1,9 +1,9 @@
 import { egplCasemgmtActivity } from '@/cisco-ece-entities/egpl-casemgmt-activity.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { Between, In, Like, MoreThan, Repository } from 'typeorm';
 import { GetListDto } from './dto/get-list.dto';
-import { ADDRESS_FLAG } from '@/constants';
+import { ADDRESS_FLAG, CONDITION_VALUE, ACTIVITY_SUB_STATUS, ACTIVITY_MODE } from '@/constants';
 
 @Injectable()
 export class ManageEmailService {
@@ -14,34 +14,12 @@ export class ManageEmailService {
 
   async getListEmail(getListDto: GetListDto) {
     const { page, pageSize, searchMulti } = getListDto;
+
     let _query = {};
     if (searchMulti && searchMulti !== '') {
-      _query = [
-        {
-          activityId: Number(searchMulti),
-          email: {
-            emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
-          }
-        },
-        {
-          caseId: Number(searchMulti),
-          email: {
-            emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
-          }
-        },
-        {
-          subject: Like('%' + searchMulti + '%'),
-          email: {
-            emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
-          }
-        },
-      ];
+      _query = this.buildQueryMulti(searchMulti);
     } else {
-      _query = {
-        email: {
-          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
-        }
-      };
+      _query = this.buildQueryAdvance(getListDto);
     }
     const [listData, totalData] = await this.egplCasemgmtActivityRepository.findAndCount({
       where: _query,
@@ -122,254 +100,205 @@ export class ManageEmailService {
   }
 
   async getCaseDetail(caseId) {
-    return {
-      caseInfo: [
-        {
-          name: 'CaseId',
-          content: '102134',
+    const caseDetail = await this.egplCasemgmtActivityRepository.find({
+      where: {
+        caseId: caseId,
+        email: {
+          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
+        }
+      },
+      select: {
+        activityId: true,
+        caseId: true,
+        queueId: true,
+        assignedTo: true,
+        createdOn: true,
+        numAttachments: true,
+        email: {
+          activityId: true,
+          fromEmailAddress: true,
+          recvEmailAddress: true,
         },
-        {
-          name: 'Case status',
-          content: '102134',
+        queue: {
+          queueId: true,
+          queueName: true
         },
-        {
-          name: 'Owner',
-          content: 'thuha@gmail.com',
+        user: {
+          userId: true,
+          userName: true
         },
-        {
-          name: 'Severity',
-          content: 'Medium',
-        },
-        {
-          name: 'Due on',
-          content: '06/11/2023',
-        },
-        {
-          name: 'Due at',
-          content: '05:00 PM',
-        },
-        {
-          name: 'Description',
-          content: 'Khuyến cáo an toàn khi sử dụng thẻ tín dụng và tài khoản ngân hàng.' +
-            'Khuyến cáo an toàn khi sử dụng thẻ tín dụng và tài khoản ngân hàng',
-        },
-        {
-          name: 'Description of solution',
-          content: 'abc',
-        },
-        {
-          name: 'Related cases',
-          content: '1027643,1027643',
-        },
-        {
-          name: 'Classifications',
-          content: 'abc',
-        },
-
-      ],
-      caseActivity: [
-        {
-          key: '0',
-          activityId: 1212321,
-          direction: 'inbout',
-          mailSend: 'chamsockhachang@gmail.com',
-          to: 'nguyenvana@gmail.com',
-          subject: 'V/V:Hỗ trợ app Vpbank[#12345]',
-          queueName: 'ECE_EMAIL-2020',
-          createOn: '06/11/2023 08:40 AM',
-          files: [],
-          // eslint-disable-next-line max-len
-          content: 'Tôi muốn mua số đuôi 2000-- <br><div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature"><div dir="ltr"><font style="background-color:rgb(255,255,255)" color="#e06666">Nguyễn Thị Nguyệt/Ms.</font><div><font color="#6fa8dc">Tester, METECH JSC </font><div><div><font color="#e06666">M</font>: 0963570165 </div><div><font color="#e06666">E</font>: <a href="mailto:nguyetnt@metechvn.com" target="_blank">nguyetnt@metechvn.com</a><br></div></div></div></div></div>\n',
-
-        },
-        {
-          key: '1',
-          activityId: 1212322,
-          direction: 'outbout',
-          mailSend: 'chamsockhachang@gmail.com',
-          to: 'nguyenvana@gmail.com',
-          subject: 'V/V:Hỗ trợ app Vpbank[#12345]',
-          queueName: 'ECE_EMAIL-2020',
-          createOn: '06/11/2023 08:40 AM',
-          // eslint-disable-next-line max-len
-          content: 'Tôi muốn mua số đuôi 2000-- <br><div dir="ltr" class="gmail_signature" data-smartmail="gmail_signature"><div dir="ltr"><font style="background-color:rgb(255,255,255)" color="#e06666">Nguyễn Thị Nguyệt/Ms.</font><div><font color="#6fa8dc">Tester, METECH JSC </font><div><div><font color="#e06666">M</font>: 0963570165 </div><div><font color="#e06666">E</font>: <a href="mailto:nguyetnt@metechvn.com" target="_blank">nguyetnt@metechvn.com</a><br></div></div></div></div></div>\n',
-          files: [
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '29607',
-              contentType: 'text/csv',
-              name: 'pdf',
-              size: '76 KB',
-            },
-            {
-              id: '29605',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-          ],
-        },
-        {
-          key: '2',
-          activityId: 1212322,
-          direction: 'outbout',
-          mailSend: 'chamsockhachang@gmail.com',
-          to: 'nguyenvana@gmail.com',
-          subject: 'V/V:Hỗ trợ app Vpbank[#12345]',
-          queueName: 'ECE_EMAIL-2020',
-          createOn: '06/11/2023 08:40 AM',
-          files: [
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '29607',
-              contentType: 'text/csv',
-              name: 'pdf',
-              size: '76 KB',
-            },
-            {
-              id: '29605',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-          ],
-        },
-        {
-          key: '3',
-          activityId: 1212322,
-          direction: 'outbout',
-          mailSend: 'chamsockhachang@gmail.com',
-          to: 'nguyenvana@gmail.com',
-          subject: 'V/V:Hỗ trợ app Vpbank[#12345]',
-          queueName: 'ECE_EMAIL-2020',
-          createOn: '06/11/2023 08:40 AM',
-          files: [
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '29607',
-              contentType: 'text/csv',
-              name: 'pdf',
-              size: '76 KB',
-            },
-            {
-              id: '29605',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-          ],
-        },
-        {
-          key: '4',
-          activityId: 1212322,
-          direction: 'outbout',
-          mailSend: 'chamsockhachang@gmail.com',
-          to: 'nguyenvana@gmail.com',
-          subject: 'V/V:Hỗ trợ app Vpbank[#12345]',
-          queueName: 'ECE_EMAIL-2020',
-          createOn: '06/11/2023 08:40 AM',
-          files: [
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '29607',
-              contentType: 'text/csv',
-              name: 'pdf',
-              size: '76 KB',
-            },
-            {
-              id: '29605',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-            {
-              id: '3564',
-              contentType: 'image/png',
-              name: 'image001.jpg',
-              size: '76 KB',
-            },
-          ],
-        },
-      ],
-      caseNote: [
-        {
-          time: '07/11/2023 11:43AM',
-          email: 'haiyen@vpbank.com.vn(haiyen)',
-          content: 'Khuyến cáo an toàn khi sử dụng thẻ tín dụng và tài khoản ngân hàng',
-        },
-        {
-          time: '07/11/2023 11:43AM',
-          email: 'haiyen@vpbank.com.vn(haiyen)',
-          content: 'Khuyến cáo an toàn khi sử dụng thẻ tín dụng và tài khoản ngân hàng',
-        },
-        {
-          time: '07/11/2023 11:43AM',
-          email: 'haiyen@vpbank.com.vn(haiyen)',
-          content: 'Khuyến cáo an toàn khi sử dụng thẻ tín dụng và tài khoản ngân hàng',
-        },
-      ],
-    };
+        case: {
+          caseId: true,
+          caseStatus: true,
+          originalSource: true,
+          severity: true,
+          dueDate: true,
+          description: true,
+          solutionDescription: true,
+          owner: true,
+          ownerDetail: {
+            userId: true,
+            userName: true
+          }
+        }
+      },
+      relations: [
+        'email',
+        'email.emailAddressTo',
+        'queue',
+        'user',
+        'case',
+        'case.ownerDetail',
+      ]
+    });
+    return caseDetail;
   }
+
+  buildQueryMulti(searchMulti) {
+    return [
+      {
+        activityId: Number(searchMulti),
+        email: {
+          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
+        }
+      },
+      {
+        caseId: Number(searchMulti),
+        email: {
+          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
+        }
+      },
+      {
+        subject: Like('%' + searchMulti + '%'),
+        email: {
+          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
+        }
+      },
+      {
+        email: {
+          fromEmailAddress: Like('%' + searchMulti + '%'),
+          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
+        }
+      },
+      {
+        email: {
+          emailAddressTo: {
+            emailAddress: Like('%' + searchMulti + '%'),
+            addressFlag: ADDRESS_FLAG.TO
+          }
+        }
+      },
+    ];
+  }
+
+  buildQueryAdvance(getListDto: GetListDto) {
+    const {
+      caseId,
+      activityId,
+      subject,
+      from,
+      to,
+      caseIdCondition,
+      activityIdCondition,
+      subjectCondition,
+      fromCondition,
+      toCondition,
+      assignedTo,
+      createOn,
+      subStatus,
+      queueName,
+      file,
+      direction
+    } = getListDto;
+
+    let _query = {
+      email: {
+        emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
+      }
+    };
+
+    if (caseId && caseId != '') {
+      this.generateQueryWithCondition(_query, caseIdCondition, 'caseId', caseId);
+    }
+
+    if (activityId && activityId != '') {
+      this.generateQueryWithCondition(_query, activityIdCondition, 'activityId', activityId);
+    }
+
+    if (subject && subject != '') {
+      this.generateQueryWithCondition(_query, subjectCondition, 'subject', subject);
+    }
+
+    if (from && from != '') {
+      if (fromCondition == CONDITION_VALUE.MATCH) {
+        _query.email['fromEmailAddress'] = from;
+      } else if (fromCondition == CONDITION_VALUE.INCLUDE) {
+        _query.email['fromEmailAddress'] = Like('%' + from + '%');
+      } else {
+        _query = _query;
+      }
+    }
+
+    if (to && to != '') {
+      if (toCondition == CONDITION_VALUE.MATCH) {
+        _query.email['emailAddressTo']['emailAddress'] = to;
+      } else if (toCondition == CONDITION_VALUE.INCLUDE) {
+        _query.email['emailAddressTo']['emailAddress'] = Like('%' + to + '%');
+      } else {
+        _query = _query;
+      }
+    }
+
+    if (assignedTo && assignedTo.length) {
+      _query['assignedTo'] = In(assignedTo);
+    }
+
+    if (createOn && createOn.length) {
+      _query['createOn'] = Between(createOn[0], createOn[1]);
+    }
+
+    if (subStatus && subStatus != '') {
+      if (subStatus == 'done') {
+        _query['activityStatus'] = In(ACTIVITY_SUB_STATUS.DONE);
+      }
+    }
+
+    if (queueName && queueName.length) {
+      _query['queueId'] = In(queueName);
+    }
+
+    if (file && file != '') {
+      if (file == 'true') {
+        _query['numAttachments'] = MoreThan(0);
+      }
+      if (file == 'false') {
+        _query['numAttachments'] = 0;
+      }
+    }
+
+    if (direction && direction != '') {
+      if (direction == 'send') {
+        _query['activityMode'] = Number(ACTIVITY_MODE.OUTBOUND);
+      }
+      if (direction == 'received') {
+        _query['activityMode'] = Number(ACTIVITY_MODE.INBOUND);
+      }
+    }
+
+    _query = { ..._query };
+
+    return _query;
+  }
+
+  generateQueryWithCondition(_query, condition, key, value) {
+    if (condition == CONDITION_VALUE.MATCH) {
+      _query[key] = key == 'subject' ? value : Number(value);
+    } else if (condition == CONDITION_VALUE.INCLUDE) {
+      _query[key] = Like('%' + key == 'subject' ? value : Number(value) + '%');
+    } else {
+      _query = _query;
+    }
+    return _query;
+  }
+
 }
