@@ -82,7 +82,8 @@ export class ManageEmailService {
             emailAttachmentId: true,
             attachment: {
               id: true,
-              fileName: true
+              fileName: true,
+              attachmentSize:true
             }
           }
         },
@@ -113,11 +114,22 @@ export class ManageEmailService {
         queueId: true,
         assignedTo: true,
         createdOn: true,
+        activityMode:true,
         numAttachments: true,
+        subject:true,
         email: {
           activityId: true,
           fromEmailAddress: true,
           recvEmailAddress: true,
+          emailAttachmentLink: {
+            emailId: true,
+            emailAttachmentId: true,
+            attachment: {
+              id: true,
+              fileName: true,
+              attachmentSize:true
+            }
+          }
         },
         queue: {
           queueId: true,
@@ -149,6 +161,8 @@ export class ManageEmailService {
         'user',
         'case',
         'case.ownerDetail',
+        'email.emailAttachmentLink',
+        'email.emailAttachmentLink.attachment',
       ]
     });
     return caseDetail;
