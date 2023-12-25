@@ -1,0 +1,16 @@
+import { Column, Entity, PrimaryColumn } from 'typeorm';
+
+@Entity({ name: 'EGPL_DEPARTMENT' })
+export class egplDepartment {
+    @PrimaryColumn({ name: 'DEPARTMENT_ID' })
+    departmentId: number;
+
+    @Column({ nullable: false, name: 'DEPARTMENT_NAME' })
+    departmentName: string;
+
+    @Column({ nullable: false, name: 'DEPARTMENT_DESC' })
+    departmentDesc: string;
+
+    @Column({ nullable: true, name: 'DELETE_FLAG' })
+    deleteFlag: string;
+}
