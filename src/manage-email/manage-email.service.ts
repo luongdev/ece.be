@@ -33,11 +33,11 @@ export class ManageEmailService {
         },
         user: {
           userId: true,
-          userName: true
+          userName: true,
         },
         queue: {
           queueId: true,
-          queueName: true
+          queueName: true,
         },
         activityId: true,
         subject: true,
@@ -61,8 +61,8 @@ export class ManageEmailService {
       where: {
         activityId: activityId,
         email: {
-          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
-        }
+          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO },
+        },
       },
       select: {
         activityId: true,
@@ -70,8 +70,23 @@ export class ManageEmailService {
         subject: true,
         createdOn: true,
         activityPriority: true,
-        contactPointId: true,
-        departmentId: true,
+        user:{
+          userName:true,
+          emailAddressPrimary:true,
+          emailAddressSecondary:true,
+        },
+        contactPoint: {
+          contactPointId: true,
+          emailAddress: true,
+        },
+        department:{
+          departmentId: true,
+          departmentName: true,
+        },
+        emailData: {
+          content:true,
+          header:true,
+        },
         dueDate: true,
         email: {
           activityId: true,
@@ -83,9 +98,9 @@ export class ManageEmailService {
             attachment: {
               id: true,
               fileName: true,
-              attachmentSize:true
-            }
-          }
+              attachmentSize:true,
+            },
+          },
         },
       },
       relations: [
@@ -94,8 +109,11 @@ export class ManageEmailService {
         'email.emailAttachmentLink',
         'email.emailAttachmentLink.attachment',
         'emailDataAlt',
-        'user'
-      ]
+        'user',
+        'department',
+        'contactPoint',
+        'emailData',
+      ],
     });
     return activityDetail;
   }
@@ -105,8 +123,8 @@ export class ManageEmailService {
       where: {
         caseId: caseId,
         email: {
-          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
-        }
+          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO },
+        },
       },
       select: {
         activityId: true,
@@ -127,17 +145,17 @@ export class ManageEmailService {
             attachment: {
               id: true,
               fileName: true,
-              attachmentSize:true
-            }
-          }
+              attachmentSize:true,
+            },
+          },
         },
         queue: {
           queueId: true,
-          queueName: true
+          queueName: true,
         },
         user: {
           userId: true,
-          userName: true
+          userName: true,
         },
         case: {
           caseId: true,
@@ -150,9 +168,9 @@ export class ManageEmailService {
           owner: true,
           ownerDetail: {
             userId: true,
-            userName: true
-          }
-        }
+            userName: true,
+          },
+        },
       },
       relations: [
         'email',
@@ -163,7 +181,7 @@ export class ManageEmailService {
         'case.ownerDetail',
         'email.emailAttachmentLink',
         'email.emailAttachmentLink.attachment',
-      ]
+      ],
     });
     return caseDetail;
   }
@@ -173,34 +191,34 @@ export class ManageEmailService {
       {
         activityId: Number(searchMulti),
         email: {
-          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
-        }
+          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO },
+        },
       },
       {
         caseId: Number(searchMulti),
         email: {
-          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
-        }
+          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO },
+        },
       },
       {
         subject: Like('%' + searchMulti + '%'),
         email: {
-          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
-        }
+          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO },
+        },
       },
       {
         email: {
           fromEmailAddress: Like('%' + searchMulti + '%'),
-          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
-        }
+          emailAddressTo: { addressFlag: ADDRESS_FLAG.TO },
+        },
       },
       {
         email: {
           emailAddressTo: {
             emailAddress: Like('%' + searchMulti + '%'),
-            addressFlag: ADDRESS_FLAG.TO
-          }
-        }
+            addressFlag: ADDRESS_FLAG.TO,
+          },
+        },
       },
     ];
   }
@@ -222,13 +240,13 @@ export class ManageEmailService {
       subStatus,
       queueName,
       file,
-      direction
+      direction,
     } = getListDto;
 
     let _query = {
       email: {
-        emailAddressTo: { addressFlag: ADDRESS_FLAG.TO }
-      }
+        emailAddressTo: { addressFlag: ADDRESS_FLAG.TO },
+      },
     };
 
     if (caseId && caseId != '') {

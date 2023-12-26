@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import {Column, Entity, JoinColumn, OneToOne, PrimaryColumn} from 'typeorm';
+import {egplCasemgmtActivity} from "@/cisco-ece-entities/egpl-casemgmt-activity.entity";
 
 @Entity({ name: 'EGPL_CASEMGMT_CPOINT_EMAIL' })
-export class egplCasemgmtCpointEmail {
+export class egplCasemgmtCpointEmailEntity {
     @PrimaryColumn({ name: 'CONTACT_POINT_ID' })
     contactPointId: number;
 
@@ -13,4 +14,9 @@ export class egplCasemgmtCpointEmail {
 
     @Column({ nullable: true, name: 'WHENMODIFIED' })
     whenModified: string;
+
+    @OneToOne(() => egplCasemgmtActivity, (activity) => activity.contactPoint)
+    @JoinColumn({ name: 'CONTACT_POINT_ID', referencedColumnName: 'contactPointId' })
+    activity: egplCasemgmtActivity;
+
 }
