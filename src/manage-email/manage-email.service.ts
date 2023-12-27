@@ -75,6 +75,15 @@ export class ManageEmailService {
           emailAddressPrimary:true,
           emailAddressSecondary:true,
         },
+        notes : {
+          noteId : true,
+          whenCreated: true,
+          noteName: true,
+          user: {
+            emailAddressPrimary:true,
+            emailAddressSecondary:true,
+          },
+        },
         contactPoint: {
           contactPointId: true,
           emailAddress: true,
@@ -110,6 +119,8 @@ export class ManageEmailService {
         'email.emailAttachmentLink.attachment',
         'emailDataAlt',
         'user',
+        'notes',
+        'notes.user',
         'department',
         'contactPoint',
         'emailData',
@@ -157,6 +168,15 @@ export class ManageEmailService {
           userId: true,
           userName: true,
         },
+        notes : {
+          noteId : true,
+          whenCreated: true,
+          noteName: true,
+          user: {
+            emailAddressPrimary:true,
+            emailAddressSecondary:true,
+          },
+        },
         case: {
           caseId: true,
           caseStatus: true,
@@ -178,6 +198,8 @@ export class ManageEmailService {
         'queue',
         'user',
         'case',
+        'notes',
+        'notes.user',
         'case.ownerDetail',
         'email.emailAttachmentLink',
         'email.emailAttachmentLink.attachment',
