@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ name: 'EGPL_CASEMGMT_CONTACT_POINT' })
-export class egplCasemgmtContactPoint {
+export class egplCasemgmtContactPointEntity {
     @PrimaryColumn({ name: 'CONTACT_POINT_ID' })
     contactPointId: number;
 

@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import {Column, Entity, JoinColumn, OneToOne, PrimaryColumn} from 'typeorm';
+import { egplCasemgmtActivity } from '@/cisco-ece-entities/egpl-casemgmt-activity.entity';
 
 @Entity({ name: 'EGPL_DEPARTMENT' })
-export class egplDepartment {
+export class egplDepartmentEntity {
     @PrimaryColumn({ name: 'DEPARTMENT_ID' })
     departmentId: number;
 
@@ -13,4 +14,9 @@ export class egplDepartment {
 
     @Column({ nullable: true, name: 'DELETE_FLAG' })
     deleteFlag: string;
+    
+    @OneToOne(() => egplCasemgmtActivity, (activity) => activity.department)
+    @JoinColumn({ name: 'DEPARTMENT_ID', referencedColumnName: 'departmentId' })
+    activity: egplCasemgmtActivity;
+    
 }
