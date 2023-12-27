@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { egplCasemgmtActivity } from './egpl-casemgmt-activity.entity';
 import { egplCasemgmtCaseEntity } from './egpl-casemgmt-case.entity';
+import { egplNotesEntity } from '@/cisco-ece-entities/egpl-notes.entity';
 @Entity({ name: 'EGPL_USER' })
 export class egplUserEntity {
   @PrimaryColumn({ name: 'USED_ID' })
@@ -133,4 +134,8 @@ export class egplUserEntity {
   @OneToOne(() => egplCasemgmtCaseEntity, (c) => c.ownerDetail)
   @JoinColumn({ name: 'USED_ID', referencedColumnName: 'owner' })
   case: egplCasemgmtCaseEntity;
+
+  @OneToOne( () => egplNotesEntity, (note) => note.user)
+  @JoinColumn({ name:'USER_ID',referencedColumnName: 'whoCreated' })
+  note : egplNotesEntity;
 }

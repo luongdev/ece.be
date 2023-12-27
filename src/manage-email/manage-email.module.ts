@@ -12,6 +12,7 @@ import { egplDepartmentEntity } from '@/cisco-ece-entities/egpl-department.entit
 import { egplCasemgmtContactPointEntity } from '@/cisco-ece-entities/egpl-casemgmt-contact-point.entity';
 import { egplCasemgmtCpointEmailEntity } from '@/cisco-ece-entities/egpl-casemgmt-cpoint-email.entity';
 import { egmlEmailDataEntity } from '@/cisco-ece-entities/egml_email_data.entity';
+import { egplNotesEntity } from '@/cisco-ece-entities/egpl-notes.entity';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { egmlEmailDataEntity } from '@/cisco-ece-entities/egml_email_data.entity
       egplCasemgmtContactPointEntity,
       egplCasemgmtCpointEmailEntity,
       egmlEmailDataEntity,
+      egplNotesEntity,
     ]),
   ],
   controllers: [ManageEmailController],

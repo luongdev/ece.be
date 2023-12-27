@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn} from 'typeorm';
+import { egplCasemgmtActivity } from '@/cisco-ece-entities/egpl-casemgmt-activity.entity';
+import { egplUserEntity } from '@/cisco-ece-entities/egpl-user.entity';
+import {egplCasemgmtCaseEntity} from "@/cisco-ece-entities/egpl-casemgmt-case.entity";
 
 @Entity({ name: 'EGPL_NOTES' })
 export class egplNotesEntity {
@@ -31,5 +34,17 @@ export class egplNotesEntity {
 
   @Column({ nullable: true, name: 'PARENT_NOTE_ID' })
     parentNoteId: number;
+
+  @OneToOne( () => egplCasemgmtActivity, (activity) => activity.notes)
+  @JoinColumn({ name:'NOTE_OF_ID',referencedColumnName: 'activityId' })
+  activity : egplCasemgmtActivity;
+
+  @OneToOne( () => egplUserEntity, (user) => user.note)
+  @JoinColumn({ name:'WHO_CREATED',referencedColumnName: 'userId' })
+  user : egplUserEntity;
+
+  @OneToOne( () => egplCasemgmtCaseEntity, ( c ) => c.notes)
+  @JoinColumn({ name:'NOTE_OF_ID',referencedColumnName: 'caseId' })
+  case : egplCasemgmtCaseEntity;
 
 };
