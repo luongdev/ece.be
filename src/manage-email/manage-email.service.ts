@@ -1,58 +1,64 @@
-import { egplCasemgmtActivity } from '@/cisco-ece-entities/egpl-casemgmt-activity.entity';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Between, In, Like, MoreThan, Repository } from 'typeorm';
-import { GetListDto } from './dto/get-list.dto';
-import { ADDRESS_FLAG, CONDITION_VALUE, ACTIVITY_SUB_STATUS, ACTIVITY_MODE } from '@/constants';
+import { egplCasemgmtActivity } from "@/cisco-ece-entities/egpl-casemgmt-activity.entity";
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Between, In, Like, MoreThan, Repository } from "typeorm";
+import { GetListDto } from "./dto/get-list.dto";
+import {
+  ADDRESS_FLAG,
+  CONDITION_VALUE,
+  ACTIVITY_SUB_STATUS,
+  ACTIVITY_MODE,
+} from "@/constants";
 
 @Injectable()
 export class ManageEmailService {
   constructor(
     @InjectRepository(egplCasemgmtActivity)
-    private egplCasemgmtActivityRepository: Repository<egplCasemgmtActivity>,
-  ) { }
+    private egplCasemgmtActivityRepository: Repository<egplCasemgmtActivity>
+  ) {}
 
   async getListEmail(getListDto: GetListDto) {
     const { page, pageSize, searchMulti } = getListDto;
 
     let _query = {};
-    if (searchMulti && searchMulti !== '') {
+    if (searchMulti && searchMulti !== "") {
       _query = this.buildQueryMulti(searchMulti);
     } else {
       _query = this.buildQueryAdvance(getListDto);
     }
-    const [listData, totalData] = await this.egplCasemgmtActivityRepository.findAndCount({
-      where: _query,
-      take: pageSize,
-      skip: (page - 1) * pageSize,
-      select: {
-        email: {
+    const [listData, totalData] =
+      await this.egplCasemgmtActivityRepository.findAndCount({
+        where: _query,
+        take: pageSize,
+        skip: (page - 1) * pageSize,
+        select: {
+          email: {
+            activityId: true,
+            fromEmailAddress: true,
+            recvEmailAddress: true,
+          },
+          user: {
+            userId: true,
+            userName: true,
+          },
+          queue: {
+            queueId: true,
+            queueName: true,
+          },
           activityId: true,
-          fromEmailAddress: true,
-          recvEmailAddress: true,
-        },
-        user: {
-          userId: true,
-          userName: true,
-        },
-        queue: {
+          subject: true,
+          assignedTo: true,
+          createdOn: true,
+          activitySubStatus: true,
+          caseId: true,
           queueId: true,
-          queueName: true,
+          numAttachments: true,
+          activityPriority: true,
+          activityType: true,
+          activityMode: true,
         },
-        activityId: true,
-        subject: true,
-        assignedTo: true,
-        createdOn: true,
-        activitySubStatus: true,
-        caseId: true,
-        queueId: true,
-        numAttachments: true,
-        activityPriority: true,
-        activityType: true,
-        activityMode: true,
-      },
-      relations: ['email', 'user', 'queue', 'email.emailAddressTo'],
-    });
+        relations: ["email", "user", "queue", "email.emailAddressTo"],
+      });
     return { listData, totalData };
   }
 
@@ -70,31 +76,42 @@ export class ManageEmailService {
         subject: true,
         createdOn: true,
         activityPriority: true,
-        user:{
-          userName:true,
-          emailAddressPrimary:true,
-          emailAddressSecondary:true,
+        historyActivity: {
+          eventId: true,
+          eventDate: true,
+          objectOperation: true,
+          user: {
+            lastName: true,
+            firstName: true,
+          },
         },
-        notes : {
-          noteId : true,
+        user: {
+          userName: true,
+          lastName: true,
+          firstName: true,
+          emailAddressPrimary: true,
+          emailAddressSecondary: true,
+        },
+        notes: {
+          noteId: true,
           whenCreated: true,
           noteName: true,
           user: {
-            emailAddressPrimary:true,
-            emailAddressSecondary:true,
+            emailAddressPrimary: true,
+            emailAddressSecondary: true,
           },
         },
         contactPoint: {
           contactPointId: true,
           emailAddress: true,
         },
-        department:{
+        department: {
           departmentId: true,
           departmentName: true,
         },
         emailData: {
-          content:true,
-          header:true,
+          content: true,
+          header: true,
         },
         dueDate: true,
         email: {
@@ -107,23 +124,25 @@ export class ManageEmailService {
             attachment: {
               id: true,
               fileName: true,
-              attachmentSize:true,
+              attachmentSize: true,
             },
           },
         },
       },
       relations: [
-        'email',
-        'email.emailAddressTo',
-        'email.emailAttachmentLink',
-        'email.emailAttachmentLink.attachment',
-        'emailDataAlt',
-        'user',
-        'notes',
-        'notes.user',
-        'department',
-        'contactPoint',
-        'emailData',
+        "email",
+        "email.emailAddressTo",
+        "email.emailAttachmentLink",
+        "email.emailAttachmentLink.attachment",
+        "emailDataAlt",
+        "historyActivity",
+        "historyActivity.user",
+        "user",
+        "notes",
+        "notes.user",
+        "department",
+        "contactPoint",
+        "emailData",
       ],
     });
     return activityDetail;
@@ -143,9 +162,9 @@ export class ManageEmailService {
         queueId: true,
         assignedTo: true,
         createdOn: true,
-        activityMode:true,
+        activityMode: true,
         numAttachments: true,
-        subject:true,
+        subject: true,
         email: {
           activityId: true,
           fromEmailAddress: true,
@@ -156,7 +175,7 @@ export class ManageEmailService {
             attachment: {
               id: true,
               fileName: true,
-              attachmentSize:true,
+              attachmentSize: true,
             },
           },
         },
@@ -167,15 +186,10 @@ export class ManageEmailService {
         user: {
           userId: true,
           userName: true,
-        },
-        notes : {
-          noteId : true,
-          whenCreated: true,
-          noteName: true,
-          user: {
-            emailAddressPrimary:true,
-            emailAddressSecondary:true,
-          },
+          lastName: true,
+          firstName: true,
+          emailAddressPrimary: true,
+          emailAddressSecondary: true,
         },
         case: {
           caseId: true,
@@ -190,19 +204,33 @@ export class ManageEmailService {
             userId: true,
             userName: true,
           },
+          notes: {
+            noteId: true,
+            whenCreated: true,
+            noteName: true,
+            noteData: true,
+            user: {
+              emailAddressPrimary: true,
+              emailAddressSecondary: true,
+            },
+          },
+          caseAss: {
+            caseGroupId: true,
+          },
         },
       },
       relations: [
-        'email',
-        'email.emailAddressTo',
-        'queue',
-        'user',
-        'case',
-        'notes',
-        'notes.user',
-        'case.ownerDetail',
-        'email.emailAttachmentLink',
-        'email.emailAttachmentLink.attachment',
+        "email",
+        "email.emailAddressTo",
+        "queue",
+        "user",
+        "case",
+        "case.caseAss",
+        "case.notes",
+        "case.notes.user",
+        "case.ownerDetail",
+        "email.emailAttachmentLink",
+        "email.emailAttachmentLink.attachment",
       ],
     });
     return caseDetail;
@@ -223,21 +251,21 @@ export class ManageEmailService {
         },
       },
       {
-        subject: Like('%' + searchMulti + '%'),
+        subject: Like("%" + searchMulti + "%"),
         email: {
           emailAddressTo: { addressFlag: ADDRESS_FLAG.TO },
         },
       },
       {
         email: {
-          fromEmailAddress: Like('%' + searchMulti + '%'),
+          fromEmailAddress: Like("%" + searchMulti + "%"),
           emailAddressTo: { addressFlag: ADDRESS_FLAG.TO },
         },
       },
       {
         email: {
           emailAddressTo: {
-            emailAddress: Like('%' + searchMulti + '%'),
+            emailAddress: Like("%" + searchMulti + "%"),
             addressFlag: ADDRESS_FLAG.TO,
           },
         },
@@ -271,71 +299,86 @@ export class ManageEmailService {
       },
     };
 
-    if (caseId && caseId != '') {
-      this.generateQueryWithCondition(_query, caseIdCondition, 'caseId', caseId);
+    if (caseId && caseId != "") {
+      this.generateQueryWithCondition(
+        _query,
+        caseIdCondition,
+        "caseId",
+        caseId
+      );
     }
 
-    if (activityId && activityId != '') {
-      this.generateQueryWithCondition(_query, activityIdCondition, 'activityId', activityId);
+    if (activityId && activityId != "") {
+      this.generateQueryWithCondition(
+        _query,
+        activityIdCondition,
+        "activityId",
+        activityId
+      );
     }
 
-    if (subject && subject != '') {
-      this.generateQueryWithCondition(_query, subjectCondition, 'subject', subject);
+    if (subject && subject != "") {
+      this.generateQueryWithCondition(
+        _query,
+        subjectCondition,
+        "subject",
+        subject
+      );
     }
 
-    if (from && from != '') {
+    if (from && from != "") {
       if (fromCondition == CONDITION_VALUE.MATCH) {
-        _query.email['fromEmailAddress'] = from;
+        _query.email["fromEmailAddress"] = from;
       } else if (fromCondition == CONDITION_VALUE.INCLUDE) {
-        _query.email['fromEmailAddress'] = Like('%' + from + '%');
+        _query.email["fromEmailAddress"] = Like("%" + from + "%");
       } else {
         _query = _query;
       }
     }
 
-    if (to && to != '') {
+    if (to && to != "") {
       if (toCondition == CONDITION_VALUE.MATCH) {
-        _query.email['emailAddressTo']['emailAddress'] = to;
+        _query.email["emailAddressTo"]["emailAddress"] = to;
       } else if (toCondition == CONDITION_VALUE.INCLUDE) {
-        _query.email['emailAddressTo']['emailAddress'] = Like('%' + to + '%');
+        _query.email["emailAddressTo"]["emailAddress"] = Like("%" + to + "%");
       } else {
         _query = _query;
       }
     }
 
     if (assignedTo && assignedTo.length) {
-      _query['assignedTo'] = In(assignedTo);
+      _query["assignedTo"] = In(assignedTo);
     }
 
     if (createOn && createOn.length) {
-      _query['createOn'] = Between(createOn[0], createOn[1]);
+      _query["createOn"] = Between(createOn[0], createOn[1]);
     }
 
-    if (subStatus && subStatus != '') {
-      if (subStatus == 'done') {
-        _query['activityStatus'] = In(ACTIVITY_SUB_STATUS.DONE);
+    if (subStatus && subStatus != "") {
+      if (subStatus == "done") {
+        _query["activityStatus"] = In(ACTIVITY_SUB_STATUS.DONE);
       }
     }
 
     if (queueName && queueName.length) {
-      _query['queueId'] = In(queueName);
+      _query["queueId"] = In(queueName);
     }
 
-    if (file && file != '') {
-      if (file == 'true') {
-        _query['numAttachments'] = MoreThan(0);
+    if (file && file != "") {
+      if (file == "true") {
+        _query["numAttachments"] = MoreThan(0);
       }
-      if (file == 'false') {
-        _query['numAttachments'] = 0;
+      if (file == "false") {
+        _query["numAttachments"] = 0;
       }
     }
 
-    if (direction && direction != '') {
-      if (direction == 'send') {
-        _query['activityMode'] = Number(ACTIVITY_MODE.OUTBOUND);
+    if (direction && direction != "") {
+      if (direction == "send") {
+        _query["activityMode"] = Number(ACTIVITY_MODE.OUTBOUND);
       }
-      if (direction == 'received') {
-        _query['activityMode'] = Number(ACTIVITY_MODE.INBOUND);
+      if (direction == "received") {
+        _query["activityMode"] = Number(ACTIVITY_MODE.INBOUND);
       }
     }
 
@@ -346,13 +389,12 @@ export class ManageEmailService {
 
   generateQueryWithCondition(_query, condition, key, value) {
     if (condition == CONDITION_VALUE.MATCH) {
-      _query[key] = key == 'subject' ? value : Number(value);
+      _query[key] = key == "subject" ? value : Number(value);
     } else if (condition == CONDITION_VALUE.INCLUDE) {
-      _query[key] = Like('%' + key == 'subject' ? value : Number(value) + '%');
+      _query[key] = Like("%" + key == "subject" ? value : Number(value) + "%");
     } else {
       _query = _query;
     }
     return _query;
   }
-
 }
