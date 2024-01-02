@@ -16,6 +16,7 @@ import { egplCasemgmtCpointEmailEntity } from "@/cisco-ece-entities/egpl-casemgm
 import { egmlEmailDataEntity } from "@/cisco-ece-entities/egml_email_data.entity";
 import { egplNotesEntity } from "@/cisco-ece-entities/egpl-notes.entity";
 import { egplEventHistoryCaseMgmtEntity } from "./egpl_event_history_case_mgmt.entity";
+import { egplCasemgmtCustomerEntity } from "./egpl-casemgmt-customer";
 
 @Entity({ name: "EGPL_CASEMGMT_ACTIVITY_9000" })
 export class egplCasemgmtActivity {
@@ -190,4 +191,9 @@ export class egplCasemgmtActivity {
   @OneToMany(() => egplEventHistoryCaseMgmtEntity, (hCase) => hCase.activity)
   @JoinColumn({ name: "ACTIVITY_ID", referencedColumnName: "activityId" })
   historyActivity: egplEventHistoryCaseMgmtEntity[];
+
+
+  @OneToOne(() => egplCasemgmtCustomerEntity , (cus) => cus.activity)
+  @JoinColumn({ name: "CUSTOMER_ID", referencedColumnName: "customerId" })
+  customer : egplCasemgmtCustomerEntity;
 }

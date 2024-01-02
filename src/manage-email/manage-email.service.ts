@@ -95,8 +95,11 @@ export class ManageEmailService {
         notes: {
           noteId: true,
           whenCreated: true,
-          noteName: true,
+          noteData: true,
           user: {
+            userName: true,
+            lastName: true,
+            firstName: true,
             emailAddressPrimary: true,
             emailAddressSecondary: true,
           },
@@ -128,6 +131,10 @@ export class ManageEmailService {
             },
           },
         },
+        customer: {
+          customerId: true,
+          classification : true,
+        }
       },
       relations: [
         "email",
@@ -137,6 +144,7 @@ export class ManageEmailService {
         "emailDataAlt",
         "historyActivity",
         "historyActivity.user",
+        "customer",
         "user",
         "notes",
         "notes.user",
@@ -207,9 +215,10 @@ export class ManageEmailService {
           notes: {
             noteId: true,
             whenCreated: true,
-            noteName: true,
             noteData: true,
             user: {
+              lastName: true,
+              firstName: true,
               emailAddressPrimary: true,
               emailAddressSecondary: true,
             },
@@ -217,6 +226,10 @@ export class ManageEmailService {
           caseAss: {
             caseGroupId: true,
           },
+          customer: {
+            customerId: true,
+            classification : true,
+          }
         },
       },
       relations: [
@@ -227,6 +240,7 @@ export class ManageEmailService {
         "case",
         "case.caseAss",
         "case.notes",
+        "case.customer",
         "case.notes.user",
         "case.ownerDetail",
         "email.emailAttachmentLink",

@@ -10,6 +10,7 @@ import { egplCasemgmtActivity } from "./egpl-casemgmt-activity.entity";
 import { egplUserEntity } from "./egpl-user.entity";
 import { egplNotesEntity } from "@/cisco-ece-entities/egpl-notes.entity";
 import { egplCasemgmtCaseAssEntity } from "./egpl_casemgmt_case_ass.entity";
+import { egplCasemgmtCustomerEntity } from "./egpl-casemgmt-customer";
 
 @Entity({ name: "EGPL_CASEMGMT_CASE" })
 export class egplCasemgmtCaseEntity {
@@ -88,4 +89,9 @@ export class egplCasemgmtCaseEntity {
   @OneToMany(() => egplCasemgmtCaseAssEntity, (caseAss) => caseAss.case)
   @JoinColumn({ name: "CASE_ID", referencedColumnName: "caseId" })
   caseAss: egplCasemgmtCaseAssEntity[];
+
+  @OneToOne(() => egplCasemgmtCustomerEntity , (cus) => cus.case)
+  @JoinColumn({ name: "CUSTOMER_ID", referencedColumnName: "customerId" })
+  customer : egplCasemgmtCustomerEntity;
+  
 }
