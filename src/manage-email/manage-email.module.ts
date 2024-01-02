@@ -15,6 +15,7 @@ import { egmlEmailDataEntity } from "@/cisco-ece-entities/egml_email_data.entity
 import { egplNotesEntity } from "@/cisco-ece-entities/egpl-notes.entity";
 import { egplCasemgmtCaseAssEntity } from "@/cisco-ece-entities/egpl_casemgmt_case_ass.entity";
 import { egplEventHistoryCaseMgmtEntity } from "@/cisco-ece-entities/egpl_event_history_case_mgmt.entity";
+import { egplCasemgmtCustomerEntity } from "@/cisco-ece-entities/egpl-casemgmt-customer";
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { egplEventHistoryCaseMgmtEntity } from "@/cisco-ece-entities/egpl_event_
       egplNotesEntity,
       egplCasemgmtCaseAssEntity,
       egplEventHistoryCaseMgmtEntity,
+      egplCasemgmtCustomerEntity,
     ]),
   ],
   controllers: [ManageEmailController],
