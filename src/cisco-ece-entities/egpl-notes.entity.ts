@@ -18,7 +18,10 @@ export class egplNotesEntity {
 
   @Column({ nullable: true, name: "NOTE_OF_ID" })
   noteOfId: number;
-
+ 
+  @Column({ nullable: true, name: "NOTE_OF_ID_TEMP" })
+  noteOfIdTemp: number;
+ 
   @Column({ nullable: true, name: "NOTE_NAME" })
   noteName: string;
 
@@ -54,7 +57,7 @@ export class egplNotesEntity {
 
   @ManyToOne(() => egplCasemgmtCaseEntity, (c) => c.notes, { lazy: true })
   @JoinColumn({
-    name: "NOTE_OF_ID",
+    name: "NOTE_OF_ID_TEMP",
     referencedColumnName: "caseId",
   })
   case: egplCasemgmtCaseEntity;
