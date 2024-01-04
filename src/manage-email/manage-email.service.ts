@@ -83,6 +83,7 @@ export class ManageEmailService {
           user: {
             lastName: true,
             firstName: true,
+            userName: true,
           },
         },
         user: {
@@ -133,11 +134,16 @@ export class ManageEmailService {
         },
         customer: {
           customerId: true,
-          classification : true,
-        }
+          classification: true,
+        },
+        queue: {
+          queueId: true,
+          queueName: true,
+        },
       },
       relations: [
         "email",
+        "queue",
         "email.emailAddressTo",
         "email.emailAttachmentLink",
         "email.emailAttachmentLink.attachment",
@@ -152,6 +158,11 @@ export class ManageEmailService {
         "contactPoint",
         "emailData",
       ],
+      order: {
+        historyActivity: {
+          eventDate: "ASC",
+        },
+      },
     });
     return activityDetail;
   }
@@ -228,8 +239,8 @@ export class ManageEmailService {
           },
           customer: {
             customerId: true,
-            classification : true,
-          }
+            classification: true,
+          },
         },
       },
       relations: [
