@@ -6,10 +6,10 @@ export class egmlEmailAddressEntity {
   @PrimaryColumn({ name: "EMAIL_ID" })
   emailId: number;
 
-  @Column({ nullable: false, name: "EMAIL_ADDRESS" })
+  @PrimaryColumn({ nullable: false, name: "EMAIL_ADDRESS" })
   emailAddress: string;
 
-  @Column({ nullable: false, name: "ADDRESS_FLAG" })
+  @PrimaryColumn({ nullable: false, name: "ADDRESS_FLAG" })
   addressFlag: number;
 
   @OneToOne(() => egmlEmailEntity, (email) => email.emailAddressTo)
