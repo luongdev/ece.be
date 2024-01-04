@@ -1,6 +1,6 @@
 import { Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
 import { egplCasemgmtCaseEntity } from "./egpl-casemgmt-case.entity";
-import { egplNotesEntity } from "@/cisco-ece-entities/egpl-notes.entity";
+
 @Entity({ name: "EGPL_CASEMGMT_CASE_ASS" })
 export class egplCasemgmtCaseAssEntity {
   @PrimaryColumn({ name: "CASE_GROUP_ID" })
