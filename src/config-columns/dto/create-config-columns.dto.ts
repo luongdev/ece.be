@@ -1,6 +1,6 @@
-import { IsArray, IsEmpty, IsString } from "class-validator";
+import { IsArray } from "class-validator";
 
 export class CreateConfigColumnDto {
-    @IsArray()
-    config: any;
+  @IsArray()
+  config: any;
 }

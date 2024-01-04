@@ -6,8 +6,6 @@ import {
   PrimaryColumn,
   Column,
 } from "typeorm";
-import { egmlEmailEntity } from "./egml-email.entity";
-import { egplCasemgmtCaseEntity } from "./egpl-casemgmt-case.entity";
 import { egplCasemgmtActivity } from "./egpl-casemgmt-activity.entity";
 import { egplUserEntity } from "./egpl-user.entity";
 

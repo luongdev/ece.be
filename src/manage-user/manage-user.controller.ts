@@ -1,13 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ManageUserService } from './manage-user.service';
+import { Controller, Get } from "@nestjs/common";
+import { ManageUserService } from "./manage-user.service";
 
-@Controller('manage-user')
+@Controller("manage-user")
 export class ManageUserController {
-  constructor(private readonly manageUserService: ManageUserService) { }
+  constructor(private readonly manageUserService: ManageUserService) {}
 
-  @Get('get-list')
+  @Get("get-list")
   getList() {
     return this.manageUserService.getList();
   }
-
 }

@@ -1,4 +1,4 @@
-import { Entity, JoinColumn, OneToOne, PrimaryColumn, Column } from "typeorm";
+import { Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
 import { egmlEmailEntity } from "./egml-email.entity";
 
 @Entity({ name: "EGML_EMAIL_ADDRESS" })
