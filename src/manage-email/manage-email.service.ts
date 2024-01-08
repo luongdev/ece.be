@@ -15,7 +15,7 @@ export class ManageEmailService {
   constructor(
     @InjectRepository(egplCasemgmtActivity)
     private egplCasemgmtActivityRepository: Repository<egplCasemgmtActivity>
-  ) {}
+  ) { }
 
   async getListEmail(getListDto: GetListDto) {
     const { page, pageSize, searchMulti } = getListDto;
@@ -316,6 +316,7 @@ export class ManageEmailService {
       queueName,
       file,
       direction,
+      priority
     } = getListDto;
 
     let _query = {
@@ -387,6 +388,10 @@ export class ManageEmailService {
 
     if (queueName && queueName.length) {
       _query["queueId"] = In(queueName);
+    }
+
+    if (priority && priority.length) {
+      _query["activityPriority"] = In(priority);
     }
 
     if (file && file != "") {

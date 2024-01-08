@@ -69,6 +69,10 @@ export class GetListDto {
     @IsOptional()
     queueName: [];
 
+    @IsArray()
+    @IsOptional()
+    priority: [];
+
     @IsString()
     @IsOptional()
     file: string;

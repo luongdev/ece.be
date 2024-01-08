@@ -28,6 +28,6 @@ export class egmlEmailAttachmentEntity {
   content: Buffer;
 
   @OneToOne(() => egmlEmailAttachmentLinkEntity, (aml) => aml.attachment)
-  @JoinColumn({ name: 'EMAIL_ATTACHMENT_ID', referencedColumnName: 'emailId' })
+  @JoinColumn({ name: 'EMAIL_ATTACHMENT_ID', referencedColumnName: 'emailAttachmentId' })
   attachmentLink: egmlEmailAttachmentLinkEntity;
 }
