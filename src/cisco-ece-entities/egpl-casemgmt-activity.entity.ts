@@ -11,12 +11,12 @@ import { egplUserEntity } from "./egpl-user.entity";
 import { egplRoutingQueueEntity } from "./egpl-routing-queue.entity";
 import { egmlEmailDataAltEntity } from "./egml-email-data-alt.entity";
 import { egplCasemgmtCaseEntity } from "./egpl-casemgmt-case.entity";
-import { egplDepartmentEntity } from "@/cisco-ece-entities/egpl-department.entity";
-import { egplCasemgmtCpointEmailEntity } from "@/cisco-ece-entities/egpl-casemgmt-cpoint-email.entity";
-import { egmlEmailDataEntity } from "@/cisco-ece-entities/egml_email_data.entity";
-import { egplNotesEntity } from "@/cisco-ece-entities/egpl-notes.entity";
+import { egplDepartmentEntity } from "./egpl-department.entity";
+import { egplCasemgmtCpointEmailEntity } from "./egpl-casemgmt-cpoint-email.entity";
+import { egmlEmailDataEntity } from "./egml_email_data.entity";
+import { egplNotesEntity } from "./egpl-notes.entity";
 import { egplEventHistoryCaseMgmtEntity } from "./egpl_event_history_case_mgmt.entity";
-import { egplCasemgmtCustomerEntity } from "./egpl-casemgmt-customer";
+import { egplCasemgmtCustomerEntity } from "./egpl-casemgmt-customer.entity";
 
 @Entity({ name: "EGPL_CASEMGMT_ACTIVITY_9000" })
 export class egplCasemgmtActivity {
@@ -193,7 +193,7 @@ export class egplCasemgmtActivity {
   historyActivity: egplEventHistoryCaseMgmtEntity[];
 
 
-  @OneToOne(() => egplCasemgmtCustomerEntity , (cus) => cus.activity)
+  @OneToOne(() => egplCasemgmtCustomerEntity, (cus) => cus.activity)
   @JoinColumn({ name: "CUSTOMER_ID", referencedColumnName: "customerId" })
-  customer : egplCasemgmtCustomerEntity;
+  customer: egplCasemgmtCustomerEntity;
 }

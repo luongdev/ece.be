@@ -7,9 +7,9 @@ import {
   OneToOne,
   PrimaryColumn,
 } from "typeorm";
-import { egplCasemgmtActivity } from "@/cisco-ece-entities/egpl-casemgmt-activity.entity";
-import { egplUserEntity } from "@/cisco-ece-entities/egpl-user.entity";
-import { egplCasemgmtCaseEntity } from "@/cisco-ece-entities/egpl-casemgmt-case.entity";
+import { egplCasemgmtActivity } from "./egpl-casemgmt-activity.entity";
+import { egplUserEntity } from "./egpl-user.entity";
+import { egplCasemgmtCaseEntity } from "./egpl-casemgmt-case.entity";
 
 @Entity({ name: "EGPL_NOTES" })
 export class egplNotesEntity {
@@ -18,10 +18,10 @@ export class egplNotesEntity {
 
   @Column({ nullable: true, name: "NOTE_OF_ID" })
   noteOfId: number;
- 
+
   @Column({ nullable: true, name: "NOTE_OF_ID_TEMP" })
   noteOfIdTemp: number;
- 
+
   @Column({ nullable: true, name: "NOTE_NAME" })
   noteName: string;
 

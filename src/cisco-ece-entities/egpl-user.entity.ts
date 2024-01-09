@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { egplCasemgmtActivity } from "./egpl-casemgmt-activity.entity";
 import { egplCasemgmtCaseEntity } from "./egpl-casemgmt-case.entity";
-import { egplNotesEntity } from "@/cisco-ece-entities/egpl-notes.entity";
+import { egplNotesEntity } from "./egpl-notes.entity";
 import { egplEventHistoryCaseMgmtEntity } from "./egpl_event_history_case_mgmt.entity";
 @Entity({ name: "EGPL_USER" })
 export class egplUserEntity {

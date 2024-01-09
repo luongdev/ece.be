@@ -1,4 +1,4 @@
-import { egplUserEntity } from '@/cisco-ece-entities/egpl-user.entity';
+import { egplUserEntity } from '../cisco-ece-entities/egpl-user.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';

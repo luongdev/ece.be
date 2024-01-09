@@ -1,5 +1,5 @@
-import {Column, Entity, JoinColumn, OneToOne, PrimaryColumn} from 'typeorm';
-import {egplCasemgmtActivity} from "@/cisco-ece-entities/egpl-casemgmt-activity.entity";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { egplCasemgmtActivity } from "./egpl-casemgmt-activity.entity";
 
 @Entity({ name: 'EGPL_CASEMGMT_CPOINT_EMAIL' })
 export class egplCasemgmtCpointEmailEntity {

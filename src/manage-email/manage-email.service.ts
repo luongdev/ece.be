@@ -1,4 +1,4 @@
-import { egplCasemgmtActivity } from "@/cisco-ece-entities/egpl-casemgmt-activity.entity";
+import { egplCasemgmtActivity } from "../cisco-ece-entities/egpl-casemgmt-activity.entity";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Between, In, Like, MoreThan, Repository } from "typeorm";

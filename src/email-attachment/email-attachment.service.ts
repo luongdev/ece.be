@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { egmlEmailAttachmentEntity } from "@/cisco-ece-entities/egml-email-attachment.entity";
+import { egmlEmailAttachmentEntity } from "../cisco-ece-entities/egml-email-attachment.entity";
 import { NOT_FIND_ACTIVITY } from '@/constants/errors';
 import { ConfigService } from '@nestjs/config';
 import { LoggerService } from '@/shared/logging/logger.service';
