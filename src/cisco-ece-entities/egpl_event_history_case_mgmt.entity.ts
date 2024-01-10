@@ -6,7 +6,7 @@ import {
   PrimaryColumn,
   Column,
 } from "typeorm";
-import { egplCasemgmtActivity } from "./egpl-casemgmt-activity.entity";
+import { egplCasemgmtActivityEntity } from "./egpl-casemgmt-activity.entity";
 import { egplUserEntity } from "./egpl-user.entity";
 
 @Entity({ name: "EGPL_EVENT_HISTORY_CASE_MGMT" })
@@ -101,9 +101,9 @@ export class egplEventHistoryCaseMgmtEntity {
   @Column({ nullable: false, name: "UPDATE_VERSION" })
   updateVersion: Date;
 
-  @ManyToOne(() => egplCasemgmtActivity, (c) => c.historyActivity)
+  @ManyToOne(() => egplCasemgmtActivityEntity, (c) => c.historyActivity)
   @JoinColumn({ name: "ACTIVITY_ID", referencedColumnName: "activityId" })
-  activity: egplCasemgmtActivity;
+  activity: egplCasemgmtActivityEntity;
 
   @OneToOne(() => egplUserEntity, (user) => user.hCase)
   @JoinColumn({ name: "USER_ID", referencedColumnName: "userId" })

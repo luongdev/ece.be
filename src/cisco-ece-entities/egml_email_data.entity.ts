@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
-import { egplCasemgmtActivity } from './egpl-casemgmt-activity.entity';
+import { egplCasemgmtActivityEntity } from './egpl-casemgmt-activity.entity';
 
 @Entity({ name: 'EGML_EMAIL_DATA' })
 export class egmlEmailDataEntity {
@@ -18,7 +18,7 @@ export class egmlEmailDataEntity {
     @Column({ nullable: false, name: 'CONTENT_TYPE' })
     contentType: string;
 
-    @OneToOne(() => egplCasemgmtActivity, (activity) => activity.emailData)
+    @OneToOne(() => egplCasemgmtActivityEntity, (activity) => activity.emailData)
     @JoinColumn({ name: 'ACTIVITY_ID', referencedColumnName: 'activityId' })
-    activity: egplCasemgmtActivity;
+    activity: egplCasemgmtActivityEntity;
 }

@@ -6,7 +6,7 @@ import {
   OneToOne,
   PrimaryColumn,
 } from "typeorm";
-import { egplCasemgmtActivity } from "./egpl-casemgmt-activity.entity";
+import { egplCasemgmtActivityEntity } from "./egpl-casemgmt-activity.entity";
 import { egplCasemgmtCaseEntity } from "./egpl-casemgmt-case.entity";
 import { egplNotesEntity } from "./egpl-notes.entity";
 import { egplEventHistoryCaseMgmtEntity } from "./egpl_event_history_case_mgmt.entity";
@@ -135,9 +135,9 @@ export class egplUserEntity {
   @Column({ nullable: false, name: "AUTHENTICATION_TYPE" })
   authenticationType: number;
 
-  @OneToOne(() => egplCasemgmtActivity, (activity) => activity.user)
+  @OneToOne(() => egplCasemgmtActivityEntity, (activity) => activity.user)
   @JoinColumn({ name: "USED_ID", referencedColumnName: "assignedTo" })
-  activity: egplCasemgmtActivity;
+  activity: egplCasemgmtActivityEntity;
 
   @OneToOne(() => egplCasemgmtCaseEntity, (c) => c.ownerDetail)
   @JoinColumn({ name: "USED_ID", referencedColumnName: "owner" })

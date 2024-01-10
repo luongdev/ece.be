@@ -1,4 +1,4 @@
-import { egplCasemgmtActivity } from "../cisco-ece-entities/egpl-casemgmt-activity.entity";
+import { egplCasemgmtActivityEntity } from "../cisco-ece-entities/egpl-casemgmt-activity.entity";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Between, In, Like, MoreThan, Repository } from "typeorm";
@@ -13,8 +13,8 @@ import {
 @Injectable()
 export class ManageEmailService {
   constructor(
-    @InjectRepository(egplCasemgmtActivity)
-    private egplCasemgmtActivityRepository: Repository<egplCasemgmtActivity>
+    @InjectRepository(egplCasemgmtActivityEntity)
+    private egplCasemgmtActivityRepository: Repository<egplCasemgmtActivityEntity>
   ) { }
 
   async getListEmail(getListDto: GetListDto) {

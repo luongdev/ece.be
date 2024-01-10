@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
-import { egplCasemgmtActivity } from './egpl-casemgmt-activity.entity';
+import { egplCasemgmtActivityEntity } from './egpl-casemgmt-activity.entity';
 
 @Entity({ name: 'EGPL_ROUTING_QUEUE' })
 export class egplRoutingQueueEntity {
@@ -81,8 +81,8 @@ export class egplRoutingQueueEntity {
   @Column({ nullable: false, name: 'CHAT_ALTERNATE_ENGAGEMENT' })
   chatAlternateEngagement: number;
 
-  @OneToOne(() => egplCasemgmtActivity, (activity) => activity.queue)
+  @OneToOne(() => egplCasemgmtActivityEntity, (activity) => activity.queue)
   @JoinColumn({ name: 'QUEUE_ID', referencedColumnName: 'queueId' })
-  activity: egplCasemgmtActivity;
+  activity: egplCasemgmtActivityEntity;
 
 };

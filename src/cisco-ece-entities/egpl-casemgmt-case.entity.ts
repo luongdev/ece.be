@@ -6,7 +6,7 @@ import {
   OneToOne,
   PrimaryColumn,
 } from "typeorm";
-import { egplCasemgmtActivity } from "./egpl-casemgmt-activity.entity";
+import { egplCasemgmtActivityEntity } from "./egpl-casemgmt-activity.entity";
 import { egplUserEntity } from "./egpl-user.entity";
 import { egplNotesEntity } from "./egpl-notes.entity";
 import { egplCasemgmtCaseAssEntity } from "./egpl_casemgmt_case_ass.entity";
@@ -74,9 +74,9 @@ export class egplCasemgmtCaseEntity {
   @Column({ nullable: false, name: "DELETE_FLAG" })
   deleteFlag: string;
 
-  @OneToOne(() => egplCasemgmtActivity, (activity) => activity.case)
+  @OneToOne(() => egplCasemgmtActivityEntity, (activity) => activity.case)
   @JoinColumn({ name: "CASE_ID", referencedColumnName: "caseId" })
-  activity: egplCasemgmtActivity;
+  activity: egplCasemgmtActivityEntity;
 
   @OneToOne(() => egplUserEntity, (user) => user.case)
   @JoinColumn({ name: "OWNER", referencedColumnName: "userId" })

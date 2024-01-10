@@ -7,7 +7,7 @@ import {
   OneToOne,
   PrimaryColumn,
 } from "typeorm";
-import { egplCasemgmtActivity } from "./egpl-casemgmt-activity.entity";
+import { egplCasemgmtActivityEntity } from "./egpl-casemgmt-activity.entity";
 import { egplUserEntity } from "./egpl-user.entity";
 import { egplCasemgmtCaseEntity } from "./egpl-casemgmt-case.entity";
 
@@ -46,14 +46,14 @@ export class egplNotesEntity {
   @Column({ nullable: true, name: "PARENT_NOTE_ID" })
   parentNoteId: number;
 
-  @ManyToOne(() => egplCasemgmtActivity, (activity) => activity.notes, {
+  @ManyToOne(() => egplCasemgmtActivityEntity, (activity) => activity.notes, {
     lazy: true,
   })
   @JoinColumn({
     name: "NOTE_OF_ID",
     referencedColumnName: "activityId",
   })
-  activity: egplCasemgmtActivity;
+  activity: egplCasemgmtActivityEntity;
 
   @ManyToOne(() => egplCasemgmtCaseEntity, (c) => c.notes, { lazy: true })
   @JoinColumn({
