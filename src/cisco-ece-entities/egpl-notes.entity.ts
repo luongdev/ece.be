@@ -2,9 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
-  OneToMany,
   ManyToOne,
-  OneToOne,
   PrimaryColumn,
 } from "typeorm";
 import { egplCasemgmtActivityEntity } from "./egpl-casemgmt-activity.entity";

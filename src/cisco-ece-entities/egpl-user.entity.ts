@@ -2,7 +2,6 @@ import {
   Column,
   Entity,
   JoinColumn,
-  OneToMany,
   OneToOne,
   PrimaryColumn,
 } from "typeorm";
@@ -12,7 +11,7 @@ import { egplNotesEntity } from "./egpl-notes.entity";
 import { egplEventHistoryCaseMgmtEntity } from "./egpl_event_history_case_mgmt.entity";
 @Entity({ name: "EGPL_USER" })
 export class egplUserEntity {
-  @PrimaryColumn({ name: "USED_ID" })
+  @PrimaryColumn({ name: "USER_ID" })
   userId: number;
 
   @Column({ nullable: true, name: "SALUTATION" })
@@ -136,11 +135,11 @@ export class egplUserEntity {
   authenticationType: number;
 
   @OneToOne(() => egplCasemgmtActivityEntity, (activity) => activity.user)
-  @JoinColumn({ name: "USED_ID", referencedColumnName: "assignedTo" })
+  @JoinColumn({ name: "USER_ID", referencedColumnName: "assignedTo" })
   activity: egplCasemgmtActivityEntity;
 
   @OneToOne(() => egplCasemgmtCaseEntity, (c) => c.ownerDetail)
-  @JoinColumn({ name: "USED_ID", referencedColumnName: "owner" })
+  @JoinColumn({ name: "USER_ID", referencedColumnName: "owner" })
   case: egplCasemgmtCaseEntity;
 
   @OneToOne(() => egplNotesEntity, (note) => note.user)
@@ -149,5 +148,5 @@ export class egplUserEntity {
 
   @OneToOne(() => egplEventHistoryCaseMgmtEntity, (hCase) => hCase.user)
   @JoinColumn({ name: "USER_ID", referencedColumnName: "userId" })
-  hCase: egplNotesEntity;
+  historyCase: egplNotesEntity;
 }
