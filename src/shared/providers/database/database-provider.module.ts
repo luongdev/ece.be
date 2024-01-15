@@ -22,6 +22,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           migrationsRun: true,
           extra: {
             trustServerCertificate: true,
+            options: {
+              encrypt: false
+            },
           },
           autoLoadEntities: true,
           // logging: true
