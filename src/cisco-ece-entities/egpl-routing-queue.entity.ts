@@ -70,7 +70,7 @@ export class egplRoutingQueueEntity {
   defaultSosialQueue: number;
 
   @Column({ nullable: false, name: 'SOSIAL_ROUTING_TYPE' })
-  SosialRoutingType: number;
+  sosialRoutingType: number;
 
   @Column({ nullable: false, name: 'MAX_CHAT_QUEUE_DEPTH' })
   maxChatQueueDepth: number;

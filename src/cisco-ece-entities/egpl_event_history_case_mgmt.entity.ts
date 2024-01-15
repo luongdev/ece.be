@@ -105,7 +105,7 @@ export class egplEventHistoryCaseMgmtEntity {
   @JoinColumn({ name: "ACTIVITY_ID", referencedColumnName: "activityId" })
   activity: egplCasemgmtActivityEntity;
 
-  @OneToOne(() => egplUserEntity, (user) => user.hCase)
+  @OneToOne(() => egplUserEntity, (user) => user.historyCase)
   @JoinColumn({ name: "USER_ID", referencedColumnName: "userId" })
   user: egplUserEntity;
 }
