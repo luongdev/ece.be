@@ -9,12 +9,15 @@ import {
   ACTIVITY_SUB_STATUS,
   ACTIVITY_MODE,
 } from "@/constants";
+import { egplNotesEntity } from "@/cisco-ece-entities/egpl-notes.entity";
 
 @Injectable()
 export class ManageEmailService {
   constructor(
     @InjectRepository(egplCasemgmtActivityEntity)
-    private egplCasemgmtActivityRepository: Repository<egplCasemgmtActivityEntity>
+    private egplCasemgmtActivityRepository: Repository<egplCasemgmtActivityEntity>,
+    @InjectRepository(egplNotesEntity)
+    private egplNotesRepository: Repository<egplNotesEntity>
   ) { }
 
   async getListEmail(getListDto: GetListDto) {
@@ -223,17 +226,6 @@ export class ManageEmailService {
             userId: true,
             userName: true,
           },
-          notes: {
-            noteId: true,
-            whenCreated: true,
-            noteData: true,
-            user: {
-              lastName: true,
-              firstName: true,
-              emailAddressPrimary: true,
-              emailAddressSecondary: true,
-            },
-          },
           caseAss: {
             caseGroupId: true,
           },
@@ -250,15 +242,34 @@ export class ManageEmailService {
         "user",
         "case",
         "case.caseAss",
-        "case.notes",
         "case.customer",
-        "case.notes.user",
         "case.ownerDetail",
         "email.emailAttachmentLink",
         "email.emailAttachmentLink.attachment",
       ],
     });
-    return caseDetail;
+    const findNotes = await this.egplNotesRepository.find({
+      where: { noteOfId: caseId },
+      select: {
+        noteId: true,
+        whenCreated: true,
+        noteData: true,
+        user: {
+          lastName: true,
+          firstName: true,
+          emailAddressPrimary: true,
+          emailAddressSecondary: true,
+        }
+      },
+      relations: [
+        "user"
+      ]
+    });
+    const dataFinal = caseDetail.map(el => {
+      el['case']['notes'] = findNotes;
+      return el;
+    });
+    return dataFinal;
   }
 
   buildQueryMulti(searchMulti) {

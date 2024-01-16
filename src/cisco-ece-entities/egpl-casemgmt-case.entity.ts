@@ -82,10 +82,6 @@ export class egplCasemgmtCaseEntity {
   @JoinColumn({ name: "OWNER", referencedColumnName: "userId" })
   ownerDetail: egplUserEntity;
 
-  @OneToMany(() => egplNotesEntity, (note) => note.case)
-  @JoinColumn({ name: "CASE_ID", referencedColumnName: "noteOfId" })
-  notes: egplNotesEntity[];
-
   @OneToMany(() => egplCasemgmtCaseAssEntity, (caseAss) => caseAss.case)
   @JoinColumn({ name: "CASE_ID", referencedColumnName: "caseId" })
   caseAss: egplCasemgmtCaseAssEntity[];

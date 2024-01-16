@@ -17,9 +17,6 @@ export class egplNotesEntity {
   @Column({ nullable: true, name: "NOTE_OF_ID" })
   noteOfId: number;
 
-  @Column({ nullable: true, name: "NOTE_OF_ID_TEMP" })
-  noteOfIdTemp: number;
-
   @Column({ nullable: true, name: "NOTE_NAME" })
   noteName: string;
 
@@ -52,13 +49,6 @@ export class egplNotesEntity {
     referencedColumnName: "activityId",
   })
   activity: egplCasemgmtActivityEntity;
-
-  @ManyToOne(() => egplCasemgmtCaseEntity, (c) => c.notes, { lazy: true })
-  @JoinColumn({
-    name: "NOTE_OF_ID_TEMP",
-    referencedColumnName: "caseId",
-  })
-  case: egplCasemgmtCaseEntity;
 
   @ManyToOne(() => egplUserEntity, (user) => user.note)
   @JoinColumn({ name: "WHO_CREATED", referencedColumnName: "userId" })
