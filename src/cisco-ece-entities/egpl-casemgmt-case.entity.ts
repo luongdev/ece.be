@@ -8,11 +8,10 @@ import {
 } from "typeorm";
 import { egplCasemgmtActivityEntity } from "./egpl-casemgmt-activity.entity";
 import { egplUserEntity } from "./egpl-user.entity";
-import { egplNotesEntity } from "./egpl-notes.entity";
-import { egplCasemgmtCaseAssEntity } from "./egpl_casemgmt_case_ass.entity";
+import { egplCasemgmtCaseAssEntity } from './egpl-casemgmt-case-ass.entity';
 import { egplCasemgmtCustomerEntity } from "./egpl-casemgmt-customer.entity";
 
-@Entity({ name: "EGPL_CASEMGMT_CASE" })
+@Entity({ name: "VIEW_EGPL_CASEMGMT_CASE" })
 export class egplCasemgmtCaseEntity {
   @PrimaryColumn({ name: "CASE_ID" })
   caseId: number;

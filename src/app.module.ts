@@ -10,7 +10,7 @@ import { JwtMiddleware } from './auth/auth-middleware';
 import { LogoutModule } from './logout/logout.module';
 import { ConfigColumnsModule } from './config-columns/config-columns.module';
 import { ManageEmailModule } from './manage-email/manage-email.module';
-import { EmailAttachmentModule } from '@/email-attachment/email-attachment.module';
+import { EmailAttachmentModule } from './email-attachment/email-attachment.module';
 import { ManageUserModule } from './manage-user/manage-user.module';
 import { ManageQueueModule } from './manage-queue/manage-queue.module';
 

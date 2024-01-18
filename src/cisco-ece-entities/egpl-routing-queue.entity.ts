@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { egplCasemgmtActivityEntity } from './egpl-casemgmt-activity.entity';
 
-@Entity({ name: 'EGPL_ROUTING_QUEUE' })
+@Entity({ name: 'VIEW_EGPL_ROUTING_QUEUE' })
 export class egplRoutingQueueEntity {
   @PrimaryColumn({ name: 'QUEUE_ID' })
   queueId: number;

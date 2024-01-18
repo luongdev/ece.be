@@ -9,7 +9,7 @@ import { egplCasemgmtActivityEntity } from "./egpl-casemgmt-activity.entity";
 import { egplCasemgmtCaseEntity } from "./egpl-casemgmt-case.entity";
 import { egplNotesEntity } from "./egpl-notes.entity";
 import { egplEventHistoryCaseMgmtEntity } from "./egpl_event_history_case_mgmt.entity";
-@Entity({ name: "EGPL_USER" })
+@Entity({ name: "VIEW_EGPL_USER" })
 export class egplUserEntity {
   @PrimaryColumn({ name: "USER_ID" })
   userId: number;

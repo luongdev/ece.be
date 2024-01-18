@@ -9,7 +9,7 @@ import { LoggerProviderModule } from '@/shared/providers';
     imports: [
         TypeOrmModule.forFeature([
             RefreshTokenEntity,
-        ]),
+        ], 'db_new'),
         LoggerProviderModule,
     ],
     controllers: [AuthController],

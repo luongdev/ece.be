@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { egplCasemgmtActivityEntity } from './egpl-casemgmt-activity.entity';
 
-@Entity({ name: 'EGML_EMAIL_DATA_ALT' })
+@Entity({ name: 'VIEW_EGML_EMAIL_DATA_ALT' })
 export class egmlEmailDataAltEntity {
   @PrimaryColumn({ name: 'EMAIL_ID' })
   emailId: number;

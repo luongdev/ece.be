@@ -3,7 +3,7 @@ import { egplCasemgmtActivityEntity } from './egpl-casemgmt-activity.entity';
 import { egmlEmailAddressEntity } from './egml-email-address.entity';
 import { egmlEmailAttachmentLinkEntity } from './egml-email-attachment-link.entity';
 
-@Entity({ name: 'EGML_EMAIL' })
+@Entity({ name: 'VIEW_EGML_EMAIL' })
 export class egmlEmailEntity {
     @PrimaryColumn({ name: 'EMAIL_ID' })
     emailId: number;

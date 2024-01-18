@@ -8,7 +8,10 @@ import { egplUserEntity } from '../cisco-ece-entities/egpl-user.entity';
   imports: [
     TypeOrmModule.forFeature([
       egplUserEntity,
-    ])
+    ], 'db_new'),
+    TypeOrmModule.forFeature([
+      egplUserEntity,
+    ], 'db_old')
   ],
   controllers: [ManageUserController],
   providers: [ManageUserService],

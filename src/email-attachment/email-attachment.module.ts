@@ -9,7 +9,10 @@ import { LoggerProviderModule } from '@/shared/providers';
   imports: [
     TypeOrmModule.forFeature([
       egmlEmailAttachmentEntity,
-    ]),
+    ], 'db_new'),
+    TypeOrmModule.forFeature([
+      egmlEmailAttachmentEntity,
+    ], 'db_old'),
     LoggerProviderModule
   ],
   controllers: [EmailAttachmentController],

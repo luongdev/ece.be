@@ -1,7 +1,7 @@
 import { Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
 import { egmlEmailEntity } from "./egml-email.entity";
 
-@Entity({ name: "EGML_EMAIL_ADDRESS" })
+@Entity({ name: "VIEW_EGML_EMAIL_ADDRESS" })
 export class egmlEmailAddressEntity {
   @PrimaryColumn({ name: "EMAIL_ID" })
   emailId: number;

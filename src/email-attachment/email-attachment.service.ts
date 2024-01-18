@@ -9,38 +9,48 @@ import { LoggerFactory } from '@/shared/providers/logger/logger.factory';
 import axios from 'axios';
 const https = require('https');
 import * as path from 'path';
+import { TYPE_SYSTEM } from '@/constants';
 
 @Injectable()
 export class EmailAttachmentService {
   private urlCisco: string;
   private readonly _log: LoggerService;
   constructor(
-    @InjectRepository(egmlEmailAttachmentEntity)
-    private emailAttachmentRepository: Repository<egmlEmailAttachmentEntity>,
+    @InjectRepository(egmlEmailAttachmentEntity, 'db_new')
+    private emailAttachmentNewRepository: Repository<egmlEmailAttachmentEntity>,
+    @InjectRepository(egmlEmailAttachmentEntity, 'db_old')
+    private emailAttachmentOldRepository: Repository<egmlEmailAttachmentEntity>,
     private configService: ConfigService,
     loggerFactory: LoggerFactory,
   ) {
-    this.urlCisco = this.configService.get('URL_CISCO');
     this._log = loggerFactory.createLogger(EmailAttachmentService);
   }
 
-  async findEmailAttachmentById(id: number) {
+  async findEmailAttachmentById(id: number, system) {
     try {
-      const findInfo = await this.emailAttachmentRepository
-        .findOne({
-          where: { id: id },
-          select: {
-            id: true, fileName: true,
-            attachmentLink: {
+      let findInfo;
+      const objectQuery = {
+        where: { id: id },
+        select: {
+          id: true, fileName: true,
+          attachmentLink: {
+            emailId: true,
+            email: {
               emailId: true,
-              email: {
-                emailId: true,
-                activityId: true
-              }
+              activityId: true
             }
-          },
-          relations: ['attachmentLink', 'attachmentLink.email']
-        });
+          }
+        },
+        relations: ['attachmentLink', 'attachmentLink.email']
+      };
+      if (system == TYPE_SYSTEM.NEW) {
+        findInfo = await this.emailAttachmentNewRepository.findOne(objectQuery);
+        this.urlCisco = this.configService.get('URL_CISCO_NEW');
+      } else {
+        findInfo = await this.emailAttachmentOldRepository.findOne(objectQuery);
+        this.urlCisco = this.configService.get('URL_CISCO_OLD');
+      }
+
       const activityId = findInfo?.attachmentLink?.email?.activityId;
       if (!activityId) throw new BadRequestException(NOT_FIND_ACTIVITY);
       // request to cisco get Link

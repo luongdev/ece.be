@@ -80,4 +80,8 @@ export class GetListDto {
     @IsString()
     @IsOptional()
     direction: string;
+
+    @IsString()
+    @IsOptional()
+    system: string;
 }

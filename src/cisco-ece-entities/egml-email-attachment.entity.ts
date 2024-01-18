@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { egmlEmailAttachmentLinkEntity } from './egml-email-attachment-link.entity';
 
-@Entity({ name: 'EGML_EMAIL_ATTACHMENT' })
+@Entity({ name: 'VIEW_EGML_EMAIL_ATTACHMENT' })
 export class egmlEmailAttachmentEntity {
   @PrimaryColumn({ type: 'numeric', name: 'EMAIL_ATTACHMENT_ID' })
   id: number;

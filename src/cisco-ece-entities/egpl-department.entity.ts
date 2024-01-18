@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { egplCasemgmtActivityEntity } from './egpl-casemgmt-activity.entity';
 
-@Entity({ name: 'EGPL_DEPARTMENT' })
+@Entity({ name: 'VIEW_EGPL_DEPARTMENT' })
 export class egplDepartmentEntity {
     @PrimaryColumn({ name: 'DEPARTMENT_ID' })
     departmentId: number;

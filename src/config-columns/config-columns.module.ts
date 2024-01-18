@@ -8,7 +8,7 @@ import { ConfigColumnEntity } from './entities/config-column.entity';
   imports: [
     TypeOrmModule.forFeature([
       ConfigColumnEntity,
-    ]),
+    ], 'db_new'),
   ],
   controllers: [ConfigColumnsController],
   providers: [ConfigColumnsService],

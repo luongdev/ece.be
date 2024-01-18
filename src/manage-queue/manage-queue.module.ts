@@ -8,7 +8,10 @@ import { egplRoutingQueueEntity } from '../cisco-ece-entities/egpl-routing-queue
   imports: [
     TypeOrmModule.forFeature([
       egplRoutingQueueEntity,
-    ])
+    ], 'db_new'),
+    TypeOrmModule.forFeature([
+      egplRoutingQueueEntity,
+    ], 'db_old')
   ],
   controllers: [ManageQueueController],
   providers: [ManageQueueService]

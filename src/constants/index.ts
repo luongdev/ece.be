@@ -19,3 +19,8 @@ export const ACTIVITY_MODE = {
     INBOUND: 100,
     OUTBOUND: 200,
 };
+
+export const TYPE_SYSTEM = {
+    OLD: 'old',
+    NEW: 'new',
+};
