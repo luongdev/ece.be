@@ -19,7 +19,7 @@ export class AuthService {
     private readonly log: LoggerService;
     constructor(
         private readonly configService: ConfigService,
-        @InjectRepository(RefreshTokenEntity)
+        @InjectRepository(RefreshTokenEntity, 'db_new')
         private refreshTokenRepository: Repository<RefreshTokenEntity>,
         loggerFactory: LoggerFactory
     ) {

@@ -8,20 +8,25 @@ import {
   CONDITION_VALUE,
   ACTIVITY_SUB_STATUS,
   ACTIVITY_MODE,
+  TYPE_SYSTEM,
 } from "@/constants";
 import { egplNotesEntity } from "@/cisco-ece-entities/egpl-notes.entity";
 
 @Injectable()
 export class ManageEmailService {
   constructor(
-    @InjectRepository(egplCasemgmtActivityEntity)
-    private egplCasemgmtActivityRepository: Repository<egplCasemgmtActivityEntity>,
-    @InjectRepository(egplNotesEntity)
-    private egplNotesRepository: Repository<egplNotesEntity>
+    @InjectRepository(egplCasemgmtActivityEntity, 'db_new')
+    private egplCasemgmtActivityNewRepository: Repository<egplCasemgmtActivityEntity>,
+    @InjectRepository(egplNotesEntity, 'db_new')
+    private egplNotesNewRepository: Repository<egplNotesEntity>,
+    @InjectRepository(egplCasemgmtActivityEntity, 'db_old')
+    private egplCasemgmtActivityOldRepository: Repository<egplCasemgmtActivityEntity>,
+    @InjectRepository(egplNotesEntity, 'db_old')
+    private egplNotesOldRepository: Repository<egplNotesEntity>
   ) { }
 
   async getListEmail(getListDto: GetListDto) {
-    const { page, pageSize, searchMulti } = getListDto;
+    const { page, pageSize, searchMulti, system } = getListDto;
 
     let _query = {};
     if (searchMulti && searchMulti !== "") {
@@ -29,44 +34,53 @@ export class ManageEmailService {
     } else {
       _query = this.buildQueryAdvance(getListDto);
     }
-    const [listData, totalData] =
-      await this.egplCasemgmtActivityRepository.findAndCount({
-        where: _query,
-        take: pageSize,
-        skip: (page - 1) * pageSize,
-        select: {
-          email: {
-            activityId: true,
-            fromEmailAddress: true,
-            recvEmailAddress: true,
-          },
-          user: {
-            userId: true,
-            userName: true,
-          },
-          queue: {
-            queueId: true,
-            queueName: true,
-          },
+    const objectQuery = {
+      where: _query,
+      take: pageSize,
+      skip: (page - 1) * pageSize,
+      select: {
+        email: {
           activityId: true,
-          subject: true,
-          assignedTo: true,
-          createdOn: true,
-          activitySubStatus: true,
-          caseId: true,
-          queueId: true,
-          numAttachments: true,
-          activityPriority: true,
-          activityType: true,
-          activityMode: true,
+          fromEmailAddress: true,
+          recvEmailAddress: true,
         },
-        relations: ["email", "user", "queue", "email.emailAddressTo"],
-      });
-    return { listData, totalData };
+        user: {
+          userId: true,
+          userName: true,
+        },
+        queue: {
+          queueId: true,
+          queueName: true,
+        },
+        activityId: true,
+        subject: true,
+        assignedTo: true,
+        createdOn: true,
+        activitySubStatus: true,
+        caseId: true,
+        queueId: true,
+        numAttachments: true,
+        activityPriority: true,
+        activityType: true,
+        activityMode: true,
+      },
+      relations: ["email", "user", "queue", "email.emailAddressTo"],
+    };
+
+    if (system == TYPE_SYSTEM.NEW) {
+      const [listData, totalData] =
+        await this.egplCasemgmtActivityNewRepository.findAndCount(objectQuery);
+      return { listData, totalData };
+    } else {
+      const [listData, totalData] =
+        await this.egplCasemgmtActivityOldRepository.findAndCount(objectQuery);
+      return { listData, totalData };
+    }
+
   }
 
-  async getActivityDetail(activityId) {
-    const activityDetail = await this.egplCasemgmtActivityRepository.findOne({
+  async getActivityDetail(activityId, system) {
+    const objectQuery: any = {
       where: {
         activityId: activityId,
         email: {
@@ -166,12 +180,18 @@ export class ManageEmailService {
           eventDate: "ASC",
         },
       },
-    });
+    };
+    let activityDetail;
+    if (system == TYPE_SYSTEM.NEW) {
+      activityDetail = await this.egplCasemgmtActivityNewRepository.findOne(objectQuery);
+    } else {
+      activityDetail = await this.egplCasemgmtActivityNewRepository.findOne(objectQuery);
+    }
     return activityDetail;
   }
 
-  async getCaseDetail(caseId) {
-    const caseDetail = await this.egplCasemgmtActivityRepository.find({
+  async getCaseDetail(caseId, system) {
+    const objectActivityQuery = {
       where: {
         caseId: caseId,
         email: {
@@ -247,8 +267,8 @@ export class ManageEmailService {
         "email.emailAttachmentLink",
         "email.emailAttachmentLink.attachment",
       ],
-    });
-    const findNotes = await this.egplNotesRepository.find({
+    };
+    const objectNoteQuery = {
       where: { noteOfId: caseId },
       select: {
         noteId: true,
@@ -264,12 +284,26 @@ export class ManageEmailService {
       relations: [
         "user"
       ]
-    });
-    const dataFinal = caseDetail.map(el => {
-      el['case']['notes'] = findNotes;
-      return el;
-    });
-    return dataFinal;
+    };
+
+    if (system == TYPE_SYSTEM.NEW) {
+      const caseDetail = await this.egplCasemgmtActivityNewRepository.find(objectActivityQuery);
+      const findNotes = await this.egplNotesNewRepository.find(objectNoteQuery);
+      const dataFinal = caseDetail.map(el => {
+        el['case']['notes'] = findNotes;
+        return el;
+      });
+      return dataFinal;
+    } else {
+      const caseDetail = await this.egplCasemgmtActivityOldRepository.find(objectActivityQuery);
+      const findNotes = await this.egplNotesOldRepository.find(objectNoteQuery);
+      const dataFinal = caseDetail.map(el => {
+        el['case']['notes'] = findNotes;
+        return el;
+      });
+      return dataFinal;
+    }
+
   }
 
   buildQueryMulti(searchMulti) {

@@ -7,9 +7,8 @@ import {
 } from "typeorm";
 import { egplCasemgmtActivityEntity } from "./egpl-casemgmt-activity.entity";
 import { egplUserEntity } from "./egpl-user.entity";
-import { egplCasemgmtCaseEntity } from "./egpl-casemgmt-case.entity";
 
-@Entity({ name: "EGPL_NOTES" })
+@Entity({ name: "VIEW_EGPL_NOTES" })
 export class egplNotesEntity {
   @PrimaryColumn({ name: "NOTE_ID" })
   noteId: number;

@@ -12,13 +12,13 @@ export class ManageEmailController {
   }
 
   @Get('/activity-detail/:activityId')
-  getActivityDetail(@Param('activityId') activityId) {
-    return this.manageEmailService.getActivityDetail(activityId);
+  getActivityDetail(@Param('activityId') activityId, @Query('system') system) {
+    return this.manageEmailService.getActivityDetail(activityId, system);
   }
 
   @Get('/case-detail/:caseId')
-  getCaseDetail(@Param('caseId') caseId) {
-    return this.manageEmailService.getCaseDetail(caseId);
+  getCaseDetail(@Param('caseId') caseId, @Query('system') system) {
+    return this.manageEmailService.getCaseDetail(caseId, system);
   }
 
 }

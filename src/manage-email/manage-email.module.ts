@@ -13,7 +13,7 @@ import { egplCasemgmtContactPointEntity } from "../cisco-ece-entities/egpl-casem
 import { egplCasemgmtCpointEmailEntity } from "../cisco-ece-entities/egpl-casemgmt-cpoint-email.entity";
 import { egmlEmailDataEntity } from "../cisco-ece-entities/egml_email_data.entity";
 import { egplNotesEntity } from "../cisco-ece-entities/egpl-notes.entity";
-import { egplCasemgmtCaseAssEntity } from "../cisco-ece-entities/egpl_casemgmt_case_ass.entity";
+import { egplCasemgmtCaseAssEntity } from "../cisco-ece-entities/egpl-casemgmt-case-ass.entity";
 import { egplEventHistoryCaseMgmtEntity } from "../cisco-ece-entities/egpl_event_history_case_mgmt.entity";
 import { egplCasemgmtCustomerEntity } from "../cisco-ece-entities/egpl-casemgmt-customer.entity";
 
@@ -34,7 +34,23 @@ import { egplCasemgmtCustomerEntity } from "../cisco-ece-entities/egpl-casemgmt-
       egplCasemgmtCaseAssEntity,
       egplEventHistoryCaseMgmtEntity,
       egplCasemgmtCustomerEntity,
-    ]),
+    ], 'db_new'),
+    TypeOrmModule.forFeature([
+      egmlEmailEntity,
+      egplCasemgmtActivityEntity,
+      egmlEmailAddressEntity,
+      egmlEmailAttachmentLinkEntity,
+      egmlEmailDataAltEntity,
+      egplCasemgmtCaseEntity,
+      egplDepartmentEntity,
+      egplCasemgmtContactPointEntity,
+      egplCasemgmtCpointEmailEntity,
+      egmlEmailDataEntity,
+      egplNotesEntity,
+      egplCasemgmtCaseAssEntity,
+      egplEventHistoryCaseMgmtEntity,
+      egplCasemgmtCustomerEntity,
+    ], 'db_old'),
   ],
   controllers: [ManageEmailController],
   providers: [ManageEmailService],

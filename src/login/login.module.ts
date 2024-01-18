@@ -10,7 +10,7 @@ import { ConfigColumnEntity } from '@/config-columns/entities/config-column.enti
   imports: [
     TypeOrmModule.forFeature([
       ConfigColumnEntity,
-    ]),
+    ], 'db_new'),
     PassportModule.register({ defaultStrategy: 'ldap' }),
     AuthModule
   ],

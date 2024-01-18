@@ -7,7 +7,7 @@ import { CreateConfigColumnDto } from './dto/create-config-columns.dto';
 @Injectable()
 export class ConfigColumnsService {
   constructor(
-    @InjectRepository(ConfigColumnEntity)
+    @InjectRepository(ConfigColumnEntity, 'db_new')
     private configColumnRepository: Repository<ConfigColumnEntity>,
   ) { }
 

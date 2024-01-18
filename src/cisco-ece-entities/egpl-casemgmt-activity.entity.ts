@@ -18,7 +18,7 @@ import { egplNotesEntity } from "./egpl-notes.entity";
 import { egplEventHistoryCaseMgmtEntity } from "./egpl_event_history_case_mgmt.entity";
 import { egplCasemgmtCustomerEntity } from "./egpl-casemgmt-customer.entity";
 
-@Entity({ name: "EGPL_CASEMGMT_ACTIVITY" })
+@Entity({ name: "VIEW_EGPL_CASEMGMT_ACTIVITY" })
 export class egplCasemgmtActivityEntity {
   @PrimaryColumn({ name: "ACTIVITY_ID" })
   activityId: number;

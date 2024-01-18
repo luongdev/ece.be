@@ -8,7 +8,7 @@ import {
 import { egplCasemgmtCaseEntity } from "./egpl-casemgmt-case.entity";
 import { egplCasemgmtActivityEntity } from "./egpl-casemgmt-activity.entity";
 
-@Entity({ name: "EGPL_CASEMGMT_CUSTOMER" })
+@Entity({ name: "VIEW_EGPL_CASEMGMT_CUSTOMER" })
 export class egplCasemgmtCustomerEntity {
   @PrimaryColumn({ name: "CUSTOMER_ID" })
   customerId: number;
