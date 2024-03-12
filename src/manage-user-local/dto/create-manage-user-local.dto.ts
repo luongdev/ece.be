@@ -1,4 +1,4 @@
-import { IsIn, IsNumber, IsString, MaxLength } from "class-validator";
+import { IsIn, IsNumber, IsOptional, IsString, MaxLength } from "class-validator";
 import { ROLE, TYPE } from "../constant";
 
 export class CreateManageUserLocalDto {
@@ -11,6 +11,7 @@ export class CreateManageUserLocalDto {
     type: number;
 
     @IsString()
+    @IsOptional()
     password: string;
 
     @IsNumber()
