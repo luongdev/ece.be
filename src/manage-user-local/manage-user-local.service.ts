@@ -7,6 +7,7 @@ import { UsersLocalEntity } from './entities/manage-user-local.entity';
 import { TYPE } from './constant';
 import { DeleteManyUserDto } from './dto/delete-many-user.dto';
 import { GetListDto } from './dto/get-list.dto';
+const crypto = require('crypto');
 
 @Injectable()
 export class ManageUserLocalService {
@@ -23,6 +24,7 @@ export class ManageUserLocalService {
     if (!this.validatePassword(password, type)) {
       throw new BadRequestException("Password invalid !");
     }
+    createManageUserLocalDto.password = await crypto.createHash('sha256').update(password).digest('hex');
     return this.usersLocalRepository.insert(createManageUserLocalDto);
   }
 
@@ -85,5 +87,18 @@ export class ManageUserLocalService {
       return false;
     }
     return true;
+  }
+
+  public async checkUsernameAndPassword(username, password) {
+    const hashPassword = await crypto.createHash('sha256').update(password).digest('hex');
+    const check = await this.usersLocalRepository.findOne({ where: { username, password: hashPassword } });
+    if (!check) {
+      return false;
+    } else {
+      return {
+        id: check.id,
+        username: check.username
+      };
+    }
   }
 }

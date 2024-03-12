@@ -5,6 +5,8 @@ import { AuthModule } from '@/auth/auth.module';
 import { ConfigColumnsService } from '@/config-columns/config-columns.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigColumnEntity } from '@/config-columns/entities/config-column.entity';
+import { LoginService } from './login.service';
+import { ManageUserLocalModule } from '@/manage-user-local/manage-user-local.module';
 
 @Module({
   imports: [
@@ -12,10 +14,11 @@ import { ConfigColumnEntity } from '@/config-columns/entities/config-column.enti
       ConfigColumnEntity,
     ], 'db_new'),
     PassportModule.register({ defaultStrategy: 'ldap' }),
-    AuthModule
+    AuthModule,
+    ManageUserLocalModule
   ],
   controllers: [LoginController],
-  providers: [ConfigColumnsService]
+  providers: [ConfigColumnsService, LoginService]
 })
 
 export class LoginModule { }
