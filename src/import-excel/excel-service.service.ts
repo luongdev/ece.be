@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ROLE, TYPE } from '@/manage-user-local/constant';
 import { ManageUserLocalService } from '@/manage-user-local/manage-user-local.service';
+const crypto = require('crypto');
 
 const enumType = ["Local", "SSO"];
 const enumRole = ["Agent", "Admin", "All"];
@@ -95,6 +96,7 @@ export class ExcelService {
             if (el.role == "All") {
                 el.role = ROLE.ALL;
             }
+            el.password = crypto.createHash('sha256').update(el.password).digest('hex');
             return el;
         });
         return newData;
@@ -136,9 +138,6 @@ export class ExcelService {
         for (const data of imports) {
             const checkExist = await this.usersLocalRepository.findOne({ where: { username: data.username } });
 
-            if (checkExist) {
-                continue;
-            }
             if (checkExist) {
                 data['error'] = "username existed !";
                 errors.push(data);
