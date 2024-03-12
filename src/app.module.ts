@@ -13,6 +13,9 @@ import { ManageEmailModule } from './manage-email/manage-email.module';
 import { EmailAttachmentModule } from './email-attachment/email-attachment.module';
 import { ManageUserModule } from './manage-user/manage-user.module';
 import { ManageQueueModule } from './manage-queue/manage-queue.module';
+import { AdfsProviderModule } from './shared/providers/adfs/adfs-provider.module';
+import { ManageUserLocalModule } from './manage-user-local/manage-user-local.module';
+import { ImportExcelModule } from './import-excel/import-excel.module';
 
 @Module({
   imports: [
@@ -28,6 +31,9 @@ import { ManageQueueModule } from './manage-queue/manage-queue.module';
     EmailAttachmentModule,
     ManageUserModule,
     ManageQueueModule,
+    AdfsProviderModule,
+    ManageUserLocalModule,
+    ImportExcelModule,
   ],
   providers: [AppService],
 })

@@ -20,6 +20,7 @@ async function bootstrap() {
   app.use(passport.initialize());
 
   const config = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('BE API')
     .setVersion('1.0')
     .build();

@@ -16,7 +16,7 @@ export class TransformInterceptor<T> implements NestInterceptor<T, ResponseBase<
       .handle()
       .pipe(
         map(data => {
-          if (data['raw']) return data['raw'];
+          if (data && data['raw']) return data['raw'];
 
           return ({
             code: HttpStatus.OK,
