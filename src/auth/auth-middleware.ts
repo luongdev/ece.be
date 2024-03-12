@@ -16,7 +16,7 @@ export class JwtMiddleware implements NestMiddleware {
         this.secretKey = authConfigService.secretKey;
     }
     use(req: Request, res: Response, next: NextFunction) {
-        if (EXCLUDE_PATH.includes(req.originalUrl)) return next();
+        if (EXCLUDE_PATH.includes(req.baseUrl)) return next();
 
         const token = req.headers.authorization?.split(' ')[1];
 
