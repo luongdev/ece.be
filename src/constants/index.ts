@@ -1,6 +1,6 @@
 export const EXCLUDE_PATH = [
     '/api/login',
-    '/api/auth/refresh-token'
+    '/api/auth/refresh-token',
 ];
 export const ADDRESS_FLAG = {
     TO: 1
@@ -23,4 +23,10 @@ export const ACTIVITY_MODE = {
 export const TYPE_SYSTEM = {
     OLD: 'old',
     NEW: 'new',
+};
+
+export const COMMENT = {
+    ACCOUNT_TYPE: "Account type: SSO hoặc Local",
+    ROLE: "Role: User hoặc Admin hoặc User. All nếu tài khoản có cả 2 quyền",
+    PASSWORD: "Password bắt buộc với loại tài khoản Local, không nhập với loại tài khoản SSO.\nĐịnh dạng password: chứa ít nhất 8 ký tự gồm chữ, số và ký tự đặc biệt."
 };

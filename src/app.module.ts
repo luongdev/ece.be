@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   MiddlewareConsumer,
   Module,
@@ -20,6 +21,26 @@ import { ManageUserModule } from "./manage-user/manage-user.module";
 import { ManageQueueModule } from "./manage-queue/manage-queue.module";
 import { ManageUserLocalModule } from "./user/manage-user-local.module";
 import { FileModule } from "./import-file/file-import.module";
+=======
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
+import { AppService } from './app.service';
+import { DatabaseProviderModule } from '@shared/providers';
+import { ConfigModule } from '@nestjs/config';
+import { CqrsModule } from '@nestjs/cqrs';
+import { LoggerProviderModule } from './shared/providers';
+import { LdapModule } from './shared/providers/ldap/ldap-provider.module';
+import { LoginModule } from './login/login.module';
+import { JwtMiddleware } from './auth/auth-middleware';
+import { LogoutModule } from './logout/logout.module';
+import { ConfigColumnsModule } from './config-columns/config-columns.module';
+import { ManageEmailModule } from './manage-email/manage-email.module';
+import { EmailAttachmentModule } from './email-attachment/email-attachment.module';
+import { ManageUserModule } from './manage-user/manage-user.module';
+import { ManageQueueModule } from './manage-queue/manage-queue.module';
+import { AdfsProviderModule } from './shared/providers/adfs/adfs-provider.module';
+import { ManageUserLocalModule } from './manage-user-local/manage-user-local.module';
+import { ImportExcelModule } from './import-excel/import-excel.module';
+>>>>>>> 566b690be3a98861140318be4161da3c4fb652a2
 
 @Module({
   imports: [
@@ -35,8 +56,14 @@ import { FileModule } from "./import-file/file-import.module";
     EmailAttachmentModule,
     ManageUserModule,
     ManageQueueModule,
+<<<<<<< HEAD
     ManageUserLocalModule,
     FileModule,
+=======
+    AdfsProviderModule,
+    ManageUserLocalModule,
+    ImportExcelModule,
+>>>>>>> 566b690be3a98861140318be4161da3c4fb652a2
   ],
   providers: [AppService],
 })
