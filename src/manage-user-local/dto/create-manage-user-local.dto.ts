@@ -1,4 +1,4 @@
-import { IsIn, IsNumber, IsOptional, IsString, MaxLength } from "class-validator";
+import { IsEmpty, IsIn, IsNumber, IsOptional, IsString, MaxLength } from "class-validator";
 import { ROLE, TYPE } from "../constant";
 
 export class CreateManageUserLocalDto {
@@ -17,4 +17,10 @@ export class CreateManageUserLocalDto {
     @IsNumber()
     @IsIn([ROLE.USER, ROLE.ADMIN, ROLE.ALL])
     role: number;
+
+    @IsEmpty()
+    createdBy: string;
+
+    @IsEmpty()
+    updatedBy: string;
 }

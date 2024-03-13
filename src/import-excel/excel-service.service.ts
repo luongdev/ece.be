@@ -74,7 +74,7 @@ export class ExcelService {
         return workbook.xlsx.writeBuffer();
     }
 
-    async transform(file: Express.Multer.File) {
+    async transform(file: Express.Multer.File, userInfo) {
         const imports = [];
         const errors = [];
         const usernameSet = new Set<string>();
@@ -98,10 +98,10 @@ export class ExcelService {
             }
         });
         const { dataImports } = await this.checkExistData(imports, errors);
-        return { imports: this.formatData(dataImports), errors };
+        return { imports: this.formatData(dataImports, userInfo), errors };
     }
 
-    private formatData(data) {
+    private formatData(data, userInfo) {
         const newData = data.map((el) => {
             //format data
             if (el.type === "Local") {
@@ -123,6 +123,7 @@ export class ExcelService {
                 .createHash("sha256")
                 .update(el.password)
                 .digest("hex");
+            el.createdBy = userInfo.id;
             return el;
         });
         return newData;

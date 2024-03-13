@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Query, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query, Put, Req } from '@nestjs/common';
 import { ManageUserLocalService } from './manage-user-local.service';
 import { CreateManageUserLocalDto } from './dto/create-manage-user-local.dto';
 import { UpdateManageUserLocalDto } from './dto/update-manage-user-local.dto';
@@ -12,8 +12,9 @@ export class ManageUserLocalController {
   constructor(private readonly manageUserLocalService: ManageUserLocalService) { }
 
   @Post()
-  create(@Body() createManageUserLocalDto: CreateManageUserLocalDto) {
-    return this.manageUserLocalService.create(createManageUserLocalDto);
+  create(@Body() createManageUserLocalDto: CreateManageUserLocalDto, @Req() req) {
+    const userInfo = req.user;
+    return this.manageUserLocalService.create(createManageUserLocalDto, userInfo);
   }
 
   @Get()
@@ -27,8 +28,9 @@ export class ManageUserLocalController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateManageUserLocalDto: UpdateManageUserLocalDto) {
-    return this.manageUserLocalService.update(id, updateManageUserLocalDto);
+  update(@Param('id') id: string, @Body() updateManageUserLocalDto: UpdateManageUserLocalDto, @Req() req) {
+    const userInfo = req.user;
+    return this.manageUserLocalService.update(id, updateManageUserLocalDto, userInfo);
   }
 
   @Delete('/deleteOne/:id')

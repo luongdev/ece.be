@@ -1,4 +1,4 @@
-import { Controller, Param, Get, Res, Query } from '@nestjs/common';
+import { Controller, Param, Get, Query } from '@nestjs/common';
 import { EmailAttachmentService } from '@/email-attachment/email-attachment.service';
 
 @Controller('/email-attachment')

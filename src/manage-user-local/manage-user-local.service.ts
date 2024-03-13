@@ -16,7 +16,7 @@ export class ManageUserLocalService {
     @InjectRepository(UsersLocalEntity, "db_new")
     private usersLocalRepository: Repository<UsersLocalEntity>
   ) { }
-  async create(createManageUserLocalDto: CreateManageUserLocalDto) {
+  async create(createManageUserLocalDto: CreateManageUserLocalDto, userInfo) {
     const { username, password, type } = createManageUserLocalDto;
     const checkExistUsername = await this.usersLocalRepository.findOne({
       where: { username },
@@ -33,6 +33,7 @@ export class ManageUserLocalService {
         .update(password)
         .digest("hex");
     }
+    createManageUserLocalDto.createdBy = userInfo.id;
     return this.usersLocalRepository.insert(createManageUserLocalDto);
   }
 
@@ -53,7 +54,7 @@ export class ManageUserLocalService {
         where: _query,
         take: pageSize,
         skip: (page - 1) * pageSize,
-        select: {},
+        relations: ["createdByInfo", "updatedByInfo"],
       });
     return [listUserLocal, totalData];
   }
@@ -62,7 +63,7 @@ export class ManageUserLocalService {
     return this.usersLocalRepository.findOne({ where: { id } });
   }
 
-  async update(id: string, updateManageUserLocalDto: UpdateManageUserLocalDto) {
+  async update(id: string, updateManageUserLocalDto: UpdateManageUserLocalDto, userInfo) {
     const { password, type } = updateManageUserLocalDto;
     const checkExist = await this.usersLocalRepository.findOne({
       where: { id },
@@ -79,6 +80,7 @@ export class ManageUserLocalService {
     if (!checkExist) {
       throw new BadRequestException("User not found !");
     }
+    updateManageUserLocalDto.updatedBy = userInfo.id;
     return this.usersLocalRepository.update({ id }, updateManageUserLocalDto);
   }
 

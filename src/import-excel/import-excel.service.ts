@@ -34,11 +34,11 @@ export class ImportExcelService {
     res.end(file);
   }
 
-  async upload(file: Express.Multer.File) {
+  async upload(file: Express.Multer.File, userInfo) {
     const isExcel = ['xlsx', 'xls'].includes(file.originalname.split('.').pop());
     if (!isExcel) throw new BadRequestException(EXCEL_INVALID);
 
-    const { imports, errors } = await this.excelService.transform(file);
+    const { imports, errors } = await this.excelService.transform(file, userInfo);
 
     await this.manageUserLocalService.createMany(imports);
 
