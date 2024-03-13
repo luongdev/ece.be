@@ -7,6 +7,7 @@ import { UsersLocalEntity } from "./entities/manage-user-local.entity";
 import { TYPE } from "./constant";
 import { DeleteManyUserDto } from "./dto/delete-many-user.dto";
 import { GetListDto } from "./dto/get-list.dto";
+import { PASSWORD_INVALID } from "@/constants/errors";
 const crypto = require("crypto");
 
 @Injectable()
@@ -14,7 +15,7 @@ export class ManageUserLocalService {
   constructor(
     @InjectRepository(UsersLocalEntity, "db_new")
     private usersLocalRepository: Repository<UsersLocalEntity>
-  ) {}
+  ) { }
   async create(createManageUserLocalDto: CreateManageUserLocalDto) {
     const { username, password, type } = createManageUserLocalDto;
     const checkExistUsername = await this.usersLocalRepository.findOne({
@@ -66,8 +67,14 @@ export class ManageUserLocalService {
     const checkExist = await this.usersLocalRepository.findOne({
       where: { id },
     });
-    if (!this.validatePassword(password, type)) {
-      throw new BadRequestException("Password invalid !");
+    if (checkExist.password != password) {
+      if (!this.validatePassword(password, type)) {
+        throw new BadRequestException(PASSWORD_INVALID);
+      }
+      updateManageUserLocalDto.password = await crypto
+        .createHash("sha256")
+        .update(password)
+        .digest("hex");
     }
     if (!checkExist) {
       throw new BadRequestException("User not found !");
