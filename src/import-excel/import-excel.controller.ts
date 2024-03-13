@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Res, UseInterceptors, UploadedFile, Query } from '@nestjs/common';
+import { Controller, Get, Post, Res, UseInterceptors, UploadedFile, Query, Req } from '@nestjs/common';
 import { ImportExcelService } from './import-excel.service';
 import { ApiBearerAuth, ApiConsumes, ApiOperation } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -22,7 +22,8 @@ export class ImportExcelController {
   @Post('upload')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
-    return this.importExcelService.upload(file);
+  uploadFile(@UploadedFile() file: Express.Multer.File, @Req() req) {
+    const userInfo = req.user;
+    return this.importExcelService.upload(file, userInfo);
   }
 }
