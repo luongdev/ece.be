@@ -5,6 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { ROLE, TYPE } from "@/manage-user-local/constant";
 import { ManageUserLocalService } from "@/manage-user-local/manage-user-local.service";
+import { PASSWORD_INVALID } from "@/constants/errors";
 const crypto = require("crypto");
 
 const enumType = ["Local", "SSO"];
@@ -148,7 +149,7 @@ export class ExcelService {
                 password,
                 TYPE.LOCAL
             );
-            if (!validatePassword) return "Password user local invalid !";
+            if (!validatePassword) return PASSWORD_INVALID;
         }
     }
 
