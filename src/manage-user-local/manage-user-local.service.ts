@@ -25,7 +25,7 @@ export class ManageUserLocalService {
       throw new BadRequestException("Username existed !");
     }
     if (!this.validatePassword(password, type)) {
-      throw new BadRequestException("Password invalid !");
+      throw new BadRequestException(PASSWORD_INVALID);
     }
     if (password) {
       createManageUserLocalDto.password = await crypto
@@ -60,7 +60,7 @@ export class ManageUserLocalService {
   }
 
   async findOne(id: string) {
-    return this.usersLocalRepository.findOne({ where: { id } });
+    return this.usersLocalRepository.findOne({ where: { id }, relations: ["createdByInfo", "updatedByInfo"] });
   }
 
   async update(id: string, updateManageUserLocalDto: UpdateManageUserLocalDto, userInfo) {
@@ -68,7 +68,7 @@ export class ManageUserLocalService {
     const checkExist = await this.usersLocalRepository.findOne({
       where: { id },
     });
-    if (checkExist.password != password) {
+    if (password && checkExist.password != password) {
       if (!this.validatePassword(password, type)) {
         throw new BadRequestException(PASSWORD_INVALID);
       }

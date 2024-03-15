@@ -23,7 +23,7 @@ export class ManageEmailService {
     private egplCasemgmtActivityOldRepository: Repository<egplCasemgmtActivityEntity>,
     @InjectRepository(egplNotesEntity, "db_old")
     private egplNotesOldRepository: Repository<egplNotesEntity>
-  ) {}
+  ) { }
 
   async getListEmail(getListDto: GetListDto) {
     const { page, pageSize, searchMulti, system } = getListDto;
