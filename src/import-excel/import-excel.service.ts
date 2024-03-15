@@ -20,7 +20,7 @@ export class ImportExcelService {
     const [listFile, totalFile] = await this.fileImportRepository.findAndCount({
       take: pageSize,
       skip: (page - 1) * pageSize,
-      select: {},
+      order: { createdAt: "DESC" }
     });
     return [listFile, totalFile];
   }

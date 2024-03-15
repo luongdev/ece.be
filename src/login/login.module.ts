@@ -13,7 +13,7 @@ import { ManageUserLocalModule } from '@/manage-user-local/manage-user-local.mod
     TypeOrmModule.forFeature([
       ConfigColumnEntity,
     ], 'db_new'),
-    PassportModule.register({ defaultStrategy: 'ldap' }),
+    PassportModule.register({ defaultStrategy: 'adfs' }),
     AuthModule,
     ManageUserLocalModule
   ],
