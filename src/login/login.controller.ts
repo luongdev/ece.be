@@ -1,24 +1,26 @@
-import { Controller, Post, UseGuards, Req, Body } from '@nestjs/common';
+import { Controller, Post, UseGuards, Req, Body, Get } from '@nestjs/common';
 import { VerifyLoginDto } from './dto/login.dto';
 import { LoginService } from './login.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('login')
 export class LoginController {
   constructor(
-
     private readonly loginService: LoginService
   ) { }
 
-  // @UseGuards(AuthGuard('ldap'))
-  // @Post('')
-  // async ldapLogin(@Req() req) {
-  //   const infoAccount = req.user;
-  //   const jwtToken = this.authService.generateJwtToken(infoAccount);
-  //   const refreshToken = await this.authService.generateRefreshToken(infoAccount);
-  //   const configColumn = await this.configColumnService.findConfigByUserName(infoAccount.username);
+  @Get('adfs')
+  @UseGuards(AuthGuard('adfs'))
+  async adfsLogin(@Req() req) {
+    return true;
+  }
 
-  //   return { token: jwtToken, refreshToken, displayName: infoAccount.displayName || 'VPBanker', configColumn: configColumn?.configs };
-  // }
+  @Get('verifyCallback')
+  @UseGuards(AuthGuard('adfs'))
+  async verifyCallback(@Req() req) {
+    const infoAccount = req.user;
+    return this.loginService.verifyCallback(infoAccount);
+  }
 
   @Post('')
   async Login(@Body() verifyLoginDto: VerifyLoginDto) {

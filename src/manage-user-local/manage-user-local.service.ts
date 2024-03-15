@@ -55,6 +55,7 @@ export class ManageUserLocalService {
         take: pageSize,
         skip: (page - 1) * pageSize,
         relations: ["createdByInfo", "updatedByInfo"],
+        order: { createdAt: "DESC" }
       });
     return [listUserLocal, totalData];
   }
@@ -126,5 +127,10 @@ export class ManageUserLocalService {
         username: check.username,
       };
     }
+  }
+  public async findInfoByUserName(username) {
+    const infoUser = await this.usersLocalRepository.findOne({ where: { username } });
+    if (!infoUser) return false;
+    return true;
   }
 }

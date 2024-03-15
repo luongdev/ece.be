@@ -23,4 +23,21 @@ export class LoginService {
 
         return { token: jwtToken, refreshToken, displayName: verify.username || 'VPBanker', configColumn: configColumn?.configs };
     }
+
+    async verifyCallback(infoAccount) {
+        const { upn, appid, iss, scp } = infoAccount;
+        const payload = { username: upn, appid, iss, scp };
+        if (!infoAccount) {
+            throw new BadRequestException("verify fail !");
+        }
+        const checkExistUser = await this.manageUserLocalService.findInfoByUserName(upn);
+        if (checkExistUser == false) {
+            throw new BadRequestException("User not exists in local !");
+        }
+        const jwtToken = this.authService.generateJwtToken(payload);
+        const refreshToken = await this.authService.generateRefreshToken(payload);
+        const configColumn = await this.configColumnService.findConfigByUserName(upn);
+
+        return { token: jwtToken, refreshToken, displayName: upn || 'VPBanker', configColumn: configColumn?.configs };
+    }
 }

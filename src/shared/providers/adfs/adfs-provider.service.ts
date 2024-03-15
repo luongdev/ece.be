@@ -1,45 +1,41 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { LdapConfigService } from './adfs-config.service';
+import { ADFSConfigService } from './adfs-config.service';
 import * as Strategy from 'passport-oauth2';
+import * as jwt from 'jsonwebtoken';
+import * as fs from 'fs';
 
 @Injectable()
 export class AdfsOAuth2StrategyService extends PassportStrategy(Strategy, 'adfs') {
     constructor(
         private readonly _configService: ConfigService,
     ) {
-        super({
-            authorizationURL: 'https://mtadfs.metechvn.com/adfs/oauth2/authorize',
-            tokenURL: 'https://mtadfs.metechvn.com/adfs/oauth2/token',
-            clientID: 'c8ea2124-b248-4d71-88bb-ae699686f609',
-            clientSecret: 'hnu_fEwy-J52P3-YLl2sf0AzACBR4mHbcvN8OdmA',
-            callbackURL: 'http://10.196.26.18:3000/api/login/callback',
-            scope: ['openid', 'profile', 'email'],
-        }, (accessToken, refreshToken, profile, done) => {
-            console.log(111, accessToken);
-            console.log(222, refreshToken);
-            console.log(333, profile);
-
-            // You may need to adapt this callback function based on your ADFS configuration and user profile structure.
-            // The 'profile' parameter may contain user information.
-            return done(null, profile);
-        });
+        super(AdfsOAuth2StrategyService.createOptions(_configService),
+            (req, accessToken, refreshToken, params, profile, done) => {
+                const adfsSigningPublicKey = fs.readFileSync("adfs-token-signning.cer");
+                const decoded = jwt.verify(accessToken, adfsSigningPublicKey);
+                req['user'] = decoded;
+                return done(null, decoded);
+            });
     }
 
-    private static createOptions(configService: ConfigService, username?: string, password?: string): any {
-        const ldapConfigService = new LdapConfigService(configService);
-        const url = ldapConfigService.url;
-        const bindDN = ldapConfigService.bindDN;
-        const searchBase = ldapConfigService.searchBase;
-
-        // var adfsSigningPublicKey = fs.readFileSync("../../../../adfs-token-signning.cer");
+    private static createOptions(configService: ConfigService): any {
+        const adfsConfigService = new ADFSConfigService(configService);
+        const authorizationUrl = adfsConfigService.authorizationUrl;
+        const tokenUrl = adfsConfigService.tokenUrl;
+        const clientId = adfsConfigService.clientId;
+        const clientSecret = adfsConfigService.clientSecret;
+        const callbackUrl = adfsConfigService.callbackUrl;
 
         return {
-            path: '/login/callback',
-            entryPoint: 'ADFS_ENTRY_POINT_URL',
-            //cert: adfsSigningPublicKey,
-            callbackUrl: "http://10.196.26.18:3000/callback",
+            authorizationURL: authorizationUrl,
+            tokenURL: tokenUrl,
+            clientID: clientId,
+            clientSecret: clientSecret,
+            callbackURL: callbackUrl,
+            scope: ['openid', 'profile', 'email'],
+            passReqToCallback: true,
         };
     }
 }

@@ -72,6 +72,19 @@ export class ExcelService {
                 workSheet.getRow(1).getCell(header.key).note = header.comment;
             }
         }
+        for (let i = 2; i < 50; i++) {
+            workSheet.getRow(i).getCell('type').dataValidation = {
+                type: 'list',
+                allowBlank: true,
+                formulae: [`"${enumType.join(',')}"`]
+            };
+
+            workSheet.getRow(i).getCell('role').dataValidation = {
+                type: 'list',
+                allowBlank: true,
+                formulae: [`"${enumRole.join(',')}"`]
+            };
+        }
         return workbook.xlsx.writeBuffer();
     }
 
