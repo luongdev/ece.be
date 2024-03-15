@@ -29,6 +29,6 @@ export const TYPE_SYSTEM = {
 
 export const COMMENT = {
     ACCOUNT_TYPE: "Account type: SSO hoặc Local",
-    ROLE: "Role: User hoặc Admin. All nếu tài khoản có cả 2 quyền",
+    ROLE: "Role: User hoặc Admin hoặc All",
     PASSWORD: "Password bắt buộc với loại tài khoản Local, không nhập với loại tài khoản SSO.\nĐịnh dạng password: chứa ít nhất 8 ký tự gồm chữ, số và ký tự đặc biệt."
 };
