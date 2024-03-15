@@ -133,10 +133,12 @@ export class ExcelService {
             if (el.role === "All") {
                 el.role = ROLE.ALL;
             }
-            el.password = crypto
-                .createHash("sha256")
-                .update(el.password)
-                .digest("hex");
+            if (el.password) {
+                el.password = crypto
+                    .createHash("sha256")
+                    .update(el.password)
+                    .digest("hex");
+            }
             el.createdBy = userInfo.id;
             return el;
         });
@@ -175,9 +177,11 @@ export class ExcelService {
             data[field] =
                 row[i] && row[i].result
                     ? row[i].result.toFixed(0)
-                    : row[i]
-                        ? row[i].toString()
-                        : undefined;
+                    : row[i] && row[i].text
+                        ? row[i].text
+                        : row[i]
+                            ? row[i].toString()
+                            : undefined;
         }
         return data;
     }
