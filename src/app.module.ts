@@ -16,6 +16,8 @@ import { ManageQueueModule } from './manage-queue/manage-queue.module';
 import { AdfsProviderModule } from './shared/providers/adfs/adfs-provider.module';
 import { ManageUserLocalModule } from './manage-user-local/manage-user-local.module';
 import { ImportExcelModule } from './import-excel/import-excel.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './auth/roles/roles.guard';
 
 @Module({
   imports: [
@@ -35,7 +37,13 @@ import { ImportExcelModule } from './import-excel/import-excel.module';
     ManageUserLocalModule,
     ImportExcelModule,
   ],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    }, 
+  ],
 })
 
 export class AppModule implements NestModule {
