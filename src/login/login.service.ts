@@ -21,12 +21,11 @@ export class LoginService {
         const refreshToken = await this.authService.generateRefreshToken(verify);
         const configColumn = await this.configColumnService.findConfigByUserName(verify.username);
 
-        return { token: jwtToken, refreshToken, displayName: verify.username || 'VPBanker', configColumn: configColumn?.configs };
+        return { token: jwtToken, refreshToken, displayName: verify.username || 'VPBanker', configColumn: configColumn?.configs, role: verify.role };
     }
 
     async verifyCallback(infoAccount) {
-        const { upn, appid, iss, scp } = infoAccount;
-        const payload = { username: upn, appid, iss, scp };
+        const { upn } = infoAccount;
         if (!infoAccount) {
             throw new BadRequestException("verify fail !");
         }
@@ -34,10 +33,10 @@ export class LoginService {
         if (checkExistUser == false) {
             throw new BadRequestException("User not exists in local !");
         }
-        const jwtToken = this.authService.generateJwtToken(payload);
-        const refreshToken = await this.authService.generateRefreshToken(payload);
-        const configColumn = await this.configColumnService.findConfigByUserName(upn);
+        const jwtToken = this.authService.generateJwtToken(checkExistUser);
+        const refreshToken = await this.authService.generateRefreshToken(checkExistUser);
+        const configColumn = await this.configColumnService.findConfigByUserName(checkExistUser.username);
 
-        return { token: jwtToken, refreshToken, displayName: upn || 'VPBanker', configColumn: configColumn?.configs };
+        return { token: jwtToken, refreshToken, displayName: checkExistUser.username || 'VPBanker', configColumn: configColumn?.configs, role: checkExistUser.role };
     }
 }

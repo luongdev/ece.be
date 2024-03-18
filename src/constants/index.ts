@@ -4,6 +4,14 @@ export const EXCLUDE_PATH = [
     '/api/login/adfs',
     '/api/login/verifyCallback',
 ];
+
+export const ACCEPT_URL_ADMIN = [
+    '/api/manage-user-local',
+    '/api/import-excel',
+];
+export const URL_BOTH = [
+    '/api/logout'
+];
 export const ADDRESS_FLAG = {
     TO: 1
 };
