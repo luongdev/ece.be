@@ -125,6 +125,7 @@ export class ManageUserLocalService {
       return {
         id: check.id,
         username: check.username,
+        role: check.role,
       };
     }
   }

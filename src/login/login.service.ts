@@ -21,7 +21,7 @@ export class LoginService {
         const refreshToken = await this.authService.generateRefreshToken(verify);
         const configColumn = await this.configColumnService.findConfigByUserName(verify.username);
 
-        return { token: jwtToken, refreshToken, displayName: verify.username || 'VPBanker', configColumn: configColumn?.configs };
+        return { token: jwtToken, refreshToken, displayName: verify.username || 'VPBanker', configColumn: configColumn?.configs , roles : verify.role };
     }
 
     async verifyCallback(infoAccount) {
