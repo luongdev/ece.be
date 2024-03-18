@@ -7,7 +7,7 @@ import { UsersLocalEntity } from "./entities/manage-user-local.entity";
 import { TYPE } from "./constant";
 import { DeleteManyUserDto } from "./dto/delete-many-user.dto";
 import { GetListDto } from "./dto/get-list.dto";
-import { PASSWORD_INVALID } from "@/constants/errors";
+import { PASSWORD_INVALID, USERNAME_EXISTED } from "@/constants/errors";
 const crypto = require("crypto");
 
 @Injectable()
@@ -65,10 +65,18 @@ export class ManageUserLocalService {
   }
 
   async update(id: string, updateManageUserLocalDto: UpdateManageUserLocalDto, userInfo) {
-    const { password, type } = updateManageUserLocalDto;
+    const { password, type, username } = updateManageUserLocalDto;
     const checkExist = await this.usersLocalRepository.findOne({
       where: { id },
     });
+    if (username != checkExist.username) {
+      const findUserExist = await this.usersLocalRepository.findOne({
+        where: { username },
+      });
+      if (findUserExist) {
+        throw new BadRequestException(USERNAME_EXISTED);
+      }
+    }
     if (password && checkExist.password != password) {
       if (!this.validatePassword(password, type)) {
         throw new BadRequestException(PASSWORD_INVALID);
@@ -116,21 +124,24 @@ export class ManageUserLocalService {
       .createHash("sha256")
       .update(password)
       .digest("hex");
-    const check = await this.usersLocalRepository.findOne({
+    const checkExists = await this.usersLocalRepository.findOne({
       where: { username, password: hashPassword },
     });
-    if (!check) {
+    if (!checkExists) {
       return false;
     } else {
+      const { id, username, role } = checkExists;
       return {
-        id: check.id,
-        username: check.username,
+        id, username, role
       };
     }
   }
   public async findInfoByUserName(username) {
     const infoUser = await this.usersLocalRepository.findOne({ where: { username } });
     if (!infoUser) return false;
-    return true;
+    const { id, role } = infoUser;
+    return {
+      id, username: infoUser.username, role
+    };
   }
 }
