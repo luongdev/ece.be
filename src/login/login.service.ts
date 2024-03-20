@@ -3,6 +3,7 @@ import { VerifyLoginDto } from './dto/login.dto';
 import { ManageUserLocalService } from '@/manage-user-local/manage-user-local.service';
 import { ConfigColumnsService } from '@/config-columns/config-columns.service';
 import { AuthService } from '@/auth/auth.service';
+import { PASSWORD_INCORRECT, USERNAME_NOT_EXISTED } from '@/constants/errors';
 
 @Injectable()
 export class LoginService {
@@ -13,9 +14,13 @@ export class LoginService {
     ) { }
     async login(verifyLoginDto: VerifyLoginDto) {
         const { username, password } = verifyLoginDto;
+        const checkExistUser = await this.manageUserLocalService.findInfoByUserName(username);
+        if (checkExistUser == false) {
+            throw new BadRequestException(USERNAME_NOT_EXISTED);
+        }
         const verify = await this.manageUserLocalService.checkUsernameAndPassword(username, password);
         if (verify == false) {
-            throw new BadRequestException("Username or password invalid !");
+            throw new BadRequestException(PASSWORD_INCORRECT);
         }
         const jwtToken = this.authService.generateJwtToken(verify);
         const refreshToken = await this.authService.generateRefreshToken(verify);
