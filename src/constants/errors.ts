@@ -8,3 +8,4 @@ export const PERMISSION_DENIED = "Permission denied !";
 export const USERNAME_EXISTED = "usernameExisted";
 export const USERNAME_NOT_EXISTED ="Tài khoản không tồn tại.";
 export const PASSWORD_INCORRECT = "Mật khẩu không đúng.";
+export const ERROR_UPDATE_ADMIN = "errorUpdateAdmin";

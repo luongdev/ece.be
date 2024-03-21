@@ -7,7 +7,7 @@ import { UsersLocalEntity } from "./entities/manage-user-local.entity";
 import { TYPE } from "./constant";
 import { DeleteManyUserDto } from "./dto/delete-many-user.dto";
 import { GetListDto } from "./dto/get-list.dto";
-import { PASSWORD_INVALID, USERNAME_EXISTED } from "@/constants/errors";
+import { ERROR_UPDATE_ADMIN, PASSWORD_INVALID, USERNAME_EXISTED } from "@/constants/errors";
 const crypto = require("crypto");
 
 @Injectable()
@@ -22,7 +22,7 @@ export class ManageUserLocalService {
       where: { username },
     });
     if (checkExistUsername) {
-      throw new BadRequestException("Username existed !");
+      throw new BadRequestException(USERNAME_EXISTED);
     }
     if (!this.validatePassword(password, type)) {
       throw new BadRequestException(PASSWORD_INVALID);
@@ -69,6 +69,17 @@ export class ManageUserLocalService {
     const checkExist = await this.usersLocalRepository.findOne({
       where: { id },
     });
+    if(checkExist.username == 'admin'){
+      if (password && checkExist.password != password) {
+        checkExist.password = await crypto
+        .createHash("sha256")
+        .update(password)
+        .digest("hex");
+        updateManageUserLocalDto.updatedBy = userInfo.id;
+        return this.usersLocalRepository.update({ id }, checkExist);
+      }
+      throw new BadRequestException(ERROR_UPDATE_ADMIN);
+    }
     if (username != checkExist.username) {
       const findUserExist = await this.usersLocalRepository.findOne({
         where: { username },
@@ -100,11 +111,16 @@ export class ManageUserLocalService {
     if (!checkExist) {
       throw new BadRequestException("User not found !");
     }
-    return this.usersLocalRepository.delete({ id });
+        return this.usersLocalRepository.delete({ id });
   }
 
-  deleteMany(deleteManyUserDto: DeleteManyUserDto) {
+  async deleteMany(deleteManyUserDto: DeleteManyUserDto) {
     const { ids } = deleteManyUserDto;
+    const checkExist = await this.findInfoByUserName('admin');
+    if(checkExist){
+      const new_ids = ids.filter((id) => id !== checkExist.id);
+      return this.usersLocalRepository.delete({ id: In(new_ids) });
+    }
     return this.usersLocalRepository.delete({ id: In(ids) });
   }
 
