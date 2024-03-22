@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-// import { join } from 'path';
-// import { existsSync, readdirSync } from 'fs';
+import { join } from 'path';
+import { existsSync, readdirSync } from 'fs';
 
 @Injectable()
 export class DatabaseConfigNewService {
@@ -33,20 +33,20 @@ export class DatabaseConfigNewService {
     return this._configService.get<string>('DB_DATABASE_NEW');
   }
 
-  // async migrations() {
-  //   let migrations = [];
-  //   const migrationsDir = process.env.PATH_MIGRATION ? process.env.PATH_MIGRATION : join(process.cwd(), 'dist', 'src', 'migrations');
+  async migrations() {
+    let migrations = [];
+    const migrationsDir = process.env.PATH_MIGRATION ? process.env.PATH_MIGRATION : join(process.cwd(), 'dist', 'src', 'migrations');
 
-  //   if (!existsSync(migrationsDir)) return migrations;
+    if (!existsSync(migrationsDir)) return migrations;
 
-  //   const migrationFiles = readdirSync(migrationsDir)
-  //     .filter(f => f.endsWith('.js') && !f.endsWith('d.js'));
+    const migrationFiles = readdirSync(migrationsDir)
+      .filter(f => f.endsWith('.js') && !f.endsWith('d.js'));
 
-  //   for (const file of migrationFiles) {
-  //     const migrationClass = await import(`${migrationsDir}/${file}`);
-  //     migrations = [...migrations, ...Object.values(migrationClass)];
-  //   }
+    for (const file of migrationFiles) {
+      const migrationClass = await import(`${migrationsDir}/${file}`);
+      migrations = [...migrations, ...Object.values(migrationClass)];
+    }
 
-  //   return migrations;
-  // }
+    return migrations;
+  }
 }
