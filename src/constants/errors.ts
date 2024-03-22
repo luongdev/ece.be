@@ -9,3 +9,5 @@ export const USERNAME_EXISTED = "usernameExisted";
 export const USERNAME_NOT_EXISTED ="Tài khoản không tồn tại.";
 export const PASSWORD_INCORRECT = "Mật khẩu không đúng.";
 export const ERROR_UPDATE_ADMIN = "errorUpdateAdmin";
+export const ERROR_WHITE_SPACE_USERNAME = "errorWhiteSpaceUsername";
+export const ERROR_WHITE_SPACE_PASSWORD = "errorWhiteSpacePassword";

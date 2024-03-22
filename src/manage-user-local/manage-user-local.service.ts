@@ -7,7 +7,7 @@ import { UsersLocalEntity } from "./entities/manage-user-local.entity";
 import { TYPE } from "./constant";
 import { DeleteManyUserDto } from "./dto/delete-many-user.dto";
 import { GetListDto } from "./dto/get-list.dto";
-import { ERROR_UPDATE_ADMIN, PASSWORD_INVALID, USERNAME_EXISTED } from "@/constants/errors";
+import { ERROR_UPDATE_ADMIN, ERROR_WHITE_SPACE_PASSWORD, ERROR_WHITE_SPACE_USERNAME, PASSWORD_INVALID, USERNAME_EXISTED } from "@/constants/errors";
 const crypto = require("crypto");
 
 @Injectable()
@@ -18,6 +18,16 @@ export class ManageUserLocalService {
   ) { }
   async create(createManageUserLocalDto: CreateManageUserLocalDto, userInfo) {
     const { username, password, type } = createManageUserLocalDto;
+    const checkWhiteSpaceUsername = username.includes(' ');
+    if(checkWhiteSpaceUsername) {
+      throw new BadRequestException(ERROR_WHITE_SPACE_USERNAME);
+    }
+    if(password){
+      const checkWhiteSpacePassword = password.includes(' ');
+      if(checkWhiteSpacePassword) {
+        throw new BadRequestException(ERROR_WHITE_SPACE_PASSWORD);
+      }
+      }
     const checkExistUsername = await this.usersLocalRepository.findOne({
       where: { username },
     });
@@ -66,6 +76,14 @@ export class ManageUserLocalService {
 
   async update(id: string, updateManageUserLocalDto: UpdateManageUserLocalDto, userInfo) {
     const { password, type, username } = updateManageUserLocalDto;
+    const checkWhiteSpaceUsername = username.includes(' ');
+    const checkWhiteSpacePassword = password.includes(' ');
+    if(checkWhiteSpaceUsername) {
+      throw new BadRequestException(ERROR_WHITE_SPACE_USERNAME);
+    }
+    if(checkWhiteSpacePassword) {
+      throw new BadRequestException(ERROR_WHITE_SPACE_PASSWORD);
+    }
     const checkExist = await this.usersLocalRepository.findOne({
       where: { id },
     });
