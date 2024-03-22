@@ -151,7 +151,8 @@ export class ExcelService {
         const isUsernameExists = usernameSet.has(username);
         if (username) usernameSet.add(username);
         if (isUsernameExists) return "Username duplicate in file !";
-
+        if(username.includes(' ')) return "Username cannot contain spaces!"
+        if(password && password.includes(' ')) return "Password cannot contain spaces."
         if (!username) return "Username is required !";
         if (!type) return "Type is required !";
         if (!role) return "Role is required !";
