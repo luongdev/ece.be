@@ -27,8 +27,8 @@ import { DatabaseConfigOldService } from './database-config-old.service';
             },
           },
           autoLoadEntities: true,
-          // migrations: await dbConfigService.migrations(),
-          // migrationsRun: true,
+          migrations: await dbConfigService.migrations(),
+          migrationsRun: true,
           // logging: true
         } as TypeOrmModuleAsyncOptions);
       },
