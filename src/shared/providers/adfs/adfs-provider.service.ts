@@ -13,8 +13,8 @@ export class AdfsOAuth2StrategyService extends PassportStrategy(Strategy, 'adfs'
     ) {
         super(AdfsOAuth2StrategyService.createOptions(_configService),
             (req, accessToken, refreshToken, params, profile, done) => {
-                const adfsSigningPublicKey = fs.readFileSync("adfs-token-signning.cer");
-                const decoded = jwt.verify(accessToken, adfsSigningPublicKey);
+                const payload = accessToken.split(".");
+                const decoded = JSON.parse(Buffer.from(String(payload[1]), 'base64').toString('utf8'));
                 req['user'] = decoded;
                 return done(null, decoded);
             });
